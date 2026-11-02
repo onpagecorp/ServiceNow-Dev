@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update>
+    <sys_scope_privilege action="DELETE">
+<operation>execute</operation>
+<source_scope display_value="OnPage Integration">864f25ecdb8ca300ee685e25ca96192d</source_scope>
+<status>allowed</status>
+<sys_class_name>sys_scope_privilege</sys_class_name>
+<sys_created_by>will.young</sys_created_by>
+<sys_created_on>2018-11-26 18:46:29</sys_created_on>
+<sys_id>331e9285db466f0056c524794b961934</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_name>ScriptableRESTMessageClient.execute</sys_name>
+<sys_package display_value="OnPage Integration" source="x_onpr_onpage">864f25ecdb8ca300ee685e25ca96192d</sys_package>
+<sys_policy/>
+<sys_scope display_value="OnPage Integration">864f25ecdb8ca300ee685e25ca96192d</sys_scope>
+<sys_update_name>sys_scope_privilege_331e9285db466f0056c524794b961934</sys_update_name>
+<sys_updated_by>will.young</sys_updated_by>
+<sys_updated_on>2018-11-26 18:46:29</sys_updated_on>
+<target_name>ScriptableRESTMessageClient.execute</target_name>
+<target_scope display_value="Global">global</target_scope>
+<target_type>scriptable</target_type>
+</sys_scope_privilege>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="OnPage Integration">864f25ecdb8ca300ee685e25ca96192d</application>
+        <file_path/>
+        <instance_id>5e3914cfdbc2c380563b7236bf96199a</instance_id>
+        <instance_name>ven02252</instance_name>
+        <name>sys_scope_privilege_331e9285db466f0056c524794b961934</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update><sys_scope_privilege action="INSERT_OR_UPDATE">
+<operation>execute</operation>
+<source_scope display_value="OnPage Integration">864f25ecdb8ca300ee685e25ca96192d</source_scope>
+<status>allowed</status>
+<sys_class_name>sys_scope_privilege</sys_class_name>
+<sys_created_by>will.young</sys_created_by>
+<sys_created_on>2018-11-26 18:46:29</sys_created_on>
+<sys_id>331e9285db466f0056c524794b961934</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_name>ScriptableRESTMessageClient.execute</sys_name>
+<sys_package display_value="OnPage Integration" source="x_onpr_onpage">864f25ecdb8ca300ee685e25ca96192d</sys_package>
+<sys_policy/>
+<sys_scope display_value="OnPage Integration">864f25ecdb8ca300ee685e25ca96192d</sys_scope>
+<sys_update_name>sys_scope_privilege_331e9285db466f0056c524794b961934</sys_update_name>
+<sys_updated_by>will.young</sys_updated_by>
+<sys_updated_on>2018-11-26 18:46:29</sys_updated_on>
+<target_name>ScriptableRESTMessageClient.execute</target_name>
+<target_scope display_value="Global">global</target_scope>
+<target_type>scriptable</target_type>
+</sys_scope_privilege></record_update>]]></payload>
+        <payload_hash>1964361698</payload_hash>
+        <record_name>ScriptableRESTMessageClient.execute</record_name>
+        <reverted_from/>
+        <source>b422938d1bbb03107f50cb35604bcb0c</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>hamid.laghari</sys_created_by>
+        <sys_created_on>2026-10-06 16:10:26</sys_created_on>
+        <sys_id>4ed683cd1b7b03107f50cb35604bcb58</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_recorded_at>1a111fb08840000001</sys_recorded_at>
+        <sys_updated_by>hamid.laghari</sys_updated_by>
+        <sys_updated_on>2026-10-06 17:02:56</sys_updated_on>
+        <type>Cross scope privilege</type>
+        <update_guid>0ed683cde17b0310808fa17a93fdc057</update_guid>
+        <update_guid_history>0ed683cde17b0310808fa17a93fdc057:1964361698,9be5d98d3b6f0b10c20c0d642cfd3290:1079519551,62d64419c26e031056e4cbce64c1c270:1916153449</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>will.young</sys_created_by>
+        <sys_created_on>2026-10-06 16:10:41</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_db_object display_value="" name="sys_scope_privilege">sys_scope_privilege</sys_db_object>
+        <sys_id>3e052b4d79594639a468ed186cf83c71</sys_id>
+        <sys_metadata>331e9285db466f0056c524794b961934</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>ScriptableRESTMessageClient.execute</sys_name>
+        <sys_package display_value="OnPage Integration" source="x_onpr_onpage">864f25ecdb8ca300ee685e25ca96192d</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="OnPage Integration">864f25ecdb8ca300ee685e25ca96192d</sys_scope>
+        <sys_scope_delete display_value="">33d60e4152d64f7c9bf7959ea18f9e84</sys_scope_delete>
+        <sys_update_name>sys_scope_privilege_331e9285db466f0056c524794b961934</sys_update_name>
+        <sys_update_version display_value="sys_scope_privilege_331e9285db466f0056c524794b961934">4ed683cd1b7b03107f50cb35604bcb58</sys_update_version>
+        <sys_updated_by>will.young</sys_updated_by>
+        <sys_updated_on>2026-10-06 16:10:41</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

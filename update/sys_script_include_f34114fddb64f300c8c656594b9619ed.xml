@@ -11,164 +11,178 @@
         <sandbox_callable>false</sandbox_callable>
         <script><![CDATA[var bulkProcess = Class.create();
 bulkProcess.prototype = {
-	initialize: function() {
-	},
-	sendFailed: function(){
-		while(haveFailed()){
-			sendNotif();
-		}
-		function haveFailed(){
-			var gr = new GlideRecordSecure('x_onpr_onpage_notification');
-			gr.addQuery('status',"failed");
-			gr.query();
-			if(gr.hasNext()){
-				return true;
-			}
-			else{
-				return false;
-			}
-		}
-		function sendNotif(){
-			var notifications = [];
-			
-			//bulk update to sending
-			var gr1 = new GlideRecordSecure('x_onpr_onpage_notification');
-			gr1.addQuery('status',"failed");
-			gr1.setLimit(25);
-			gr1.query();
-			if(!gr1.hasNext()){
-				return;
-			}
-			while(gr1.next()){
-				notifications.push(gr1.getUniqueValue());
-				gr1.setValue('status',"sending");
-				gr1.setValue('retries',1);
-				gr1.update();
-			}
-			
-			//collect notification values into array of messages
-			var array = [];
-			for(var i=0;i<notifications.length;i++){
-				var gr = new GlideRecordSecure('x_onpr_onpage_notification');
-				if(gr.get(notifications[i])){
-					var table = gr.getValue('table'),
-					doc = gr.getValue('document_id'),
-					sd = encodeURI(gr.getValue('short_description')),
-					body = encodeURI(gr.getValue('body')),
-					recip = gr.getValue('recipients').split(","),
-					priority = gr.getValue('priority'),
-					options = gr.getValue('reply_options'),
-					reply = '';
-					if(options!=''&&options!=null){
-						reply = options.split(",");
-					}
-					var template = '{"id": "'+doc+'","subject":"'+sd+'","body":"'+body+'","recipients":'+this.reformat(recip)+',"priority":"'+priority+'","possibleAnswers":'+this.reformat(reply)+'}';
-						array.push(template);
-					}
-				}
-				this.info("Message array: "+array.toString());
-				
-				// send bulk message
-				var resp = new x_onpr_onpage.workflow().sendRestMessages('['+array.toString()+']',gs.getProperty('x_onpr_onpage.scripts.process_failed_notifs'));
-				//process response
-				var ans = resp.split(';'),
-				status = ans[0],
-				respBdy = ans[1];
-				this.info("Response body is: "+respBdy);
-				
-				//update all records with status
-				for(var k=0;k<notifications.length;k++){
-					var gr2 = new GlideRecordSecure('x_onpr_onpage_notification');
-					if(gr2.get(notifications[k])){
-						if(status=="error"){
-							gr2.setValue('status',"error");
-							gr2.setValue('error',respBdy);
-							gr2.update();
-						}
-						else{
-							var json = JSON.parse(respBdy);
-							var obj = json[k];
-							var snID = obj.id,
-							acptd = obj.accepted;
-							if(acptd){
-								gr2.setValue('status',status);
-								//gr2.setValue('onpage_id',snID);
-								gr2.setValue('error','');
-							}
-							else{
-								gr2.setValue('status',"error");
-								gr2.setValue('error',obj.errorDescription);
-							}
-							gr2.update();
-						}
-					}
-				}
-			}
-			
-		},
-		info: function(message){
-			//LOGGING/////////
-			var logType = "outbound";
-			var logTable = 'sysauto_script';
-			var id = gs.getProperty('x_onpr_onpage.scripts.process_failed_notifs');
-			var log = new x_onpr_onpage.log();
-			log.info(message,logType,logTable,id);
-		},
-		reformat: function(array){
-			if(array==''){
-				return '[]';
-			}
-			var string,
-			quotes = [];
-			for(var i=0;i<array.length;i++){
-				quotes.push('"'+array[i]+'"');
-			}
-			string = '['+quotes.toString()+']';
-			return string;
-		},
-		cancelFailed: function(){
-			cancel();
-			function cancel(){
-				var gr1 = new GlideRecordSecure('x_onpr_onpage_notification');
-				gr1.addQuery('status',"failed");
-				gr1.query();
-				if(!gr1.hasNext()){
-					return;
-				}
-				gr1.setValue('status',"cancelled");
-				gr1.setValue('error',"Failed notification was cancelled by an administrator.");
-				gr1.update();
-			}
-			function info(message){
-				//LOGGING/////////
-				var logType = "outbound";
-				var logTable = 'sysauto_script';
-				var id = gs.getProperty('x_onpr_onpage.scripts.cancel_failed_notifs');
-				var log = new x_onpr_onpage.log();
-				log.info(message,logType,logTable,id);
-			}
-		},
-		syncTargets: function(){
-			var sync = new x_onpr_onpage.sync();
-			sync.syncUsers();
-			sync.syncGroups();
-		},
-		
-		type: 'bulkProcess'
-	};]]></script>
+    initialize: function() {},
+    sendFailed: function() {
+        while (haveFailed()) {
+            sendNotif();
+        }
+
+        function haveFailed() {
+            var gr = new GlideRecordSecure('x_onpr_onpage_notification');
+            gr.addQuery('status', "failed");
+            gr.query();
+            if (gr.hasNext()) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        function sendNotif() {
+            var notifications = [];
+
+            //bulk update to sending
+            var gr1 = new GlideRecordSecure('x_onpr_onpage_notification');
+            gr1.addQuery('status', "failed");
+            gr1.setLimit(25);
+            gr1.query();
+            if (!gr1.hasNext()) {
+                return;
+            }
+            while (gr1.next()) {
+                notifications.push(gr1.getUniqueValue());
+                gr1.setValue('status', "sending");
+                gr1.setValue('retries', 1);
+                gr1.update();
+            }
+
+            //collect notification values into array of messages
+            var array = [];
+            for (var i = 0; i < notifications.length; i++) {
+                var gr = new GlideRecordSecure('x_onpr_onpage_notification');
+                if (gr.get(notifications[i])) {
+                    var table = gr.getValue('table'),
+                        doc = gr.getValue('document_id'),
+                        sd = encodeURI(gr.getValue('short_description')),
+                        body = encodeURI(gr.getValue('body')),
+                        recip = gr.getValue('recipients').split(","),
+                        priority = gr.getValue('priority'),
+                        options = gr.getValue('reply_options'),
+                        reply = '';
+                    if (options != '' && options != null) {
+                        reply = options.split(",");
+                    }
+                    var template = '{"id": "' + doc + '","subject":"' + sd + '","body":"' + body + '","recipients":' + this.reformat(recip) + ',"priority":"' + priority + '","possibleAnswers":' + this.reformat(reply) + '}';
+                    array.push(template);
+                }
+            }
+            this.info("Message array: " + array.toString());
+            var resp = new x_onpr_onpage.workflow().sendRestMessages('[' + array.toString() + ']', id_property);
+            var ans = resp.split(';'),
+                status = ans[0];
+            if (status == "error") {
+                // immediate failure before ECC, update all to error
+                for (var k = 0; k < notifications.length; k++) {
+                    var gr2 = new GlideRecordSecure('x_onpr_onpage_notification');
+                    if (gr2.get(notifications[k])) {
+                        gr2.setValue('status', "error");
+                        gr2.setValue('error', ans[1]);
+                        gr2.update();
+                    }
+                }
+            }
+
+            // send bulk message
+            //     var resp = new x_onpr_onpage.workflow().sendRestMessages('[' + array.toString() + ']', gs.getProperty('x_onpr_onpage.scripts.process_failed_notifs'));
+            //     //process response
+            //     var ans = resp.split(';'),
+            //         status = ans[0],
+            //         respBdy = ans[1];
+            //     this.info("Response body is: " + respBdy);
+
+            //     //update all records with status
+            //     for (var k = 0; k < notifications.length; k++) {
+            //         var gr2 = new GlideRecordSecure('x_onpr_onpage_notification');
+            //         if (gr2.get(notifications[k])) {
+            //             if (status == "error") {
+            //                 gr2.setValue('status', "error");
+            //                 gr2.setValue('error', respBdy);
+            //                 gr2.update();
+            //             } else {
+            //                 var json = JSON.parse(respBdy);
+            //                 var obj = json[k];
+            //                 var snID = obj.id,
+            //                     acptd = obj.accepted;
+            //                 if (acptd) {
+            //                     gr2.setValue('status', status);
+            //                     //gr2.setValue('onpage_id',snID);
+            //                     gr2.setValue('error', '');
+            //                 } else {
+            //                     gr2.setValue('status', "error");
+            //                     gr2.setValue('error', obj.errorDescription);
+            //                 }
+            //                 gr2.update();
+            //             }
+            //         }
+            //     }
+        }
+
+    },
+    info: function(message) {
+        //LOGGING/////////
+        var logType = "outbound";
+        var logTable = 'sysauto_script';
+        var id = gs.getProperty('x_onpr_onpage.scripts.process_failed_notifs');
+        var log = new x_onpr_onpage.log();
+        log.info(message, logType, logTable, id);
+    },
+    reformat: function(array) {
+        if (array == '') {
+            return '[]';
+        }
+        var string,
+            quotes = [];
+        for (var i = 0; i < array.length; i++) {
+            quotes.push('"' + array[i] + '"');
+        }
+        string = '[' + quotes.toString() + ']';
+        return string;
+    },
+    cancelFailed: function() {
+        cancel();
+
+        function cancel() {
+            var gr1 = new GlideRecordSecure('x_onpr_onpage_notification');
+            gr1.addQuery('status', "failed");
+            gr1.query();
+            if (!gr1.hasNext()) {
+                return;
+            }
+            gr1.setValue('status', "cancelled");
+            gr1.setValue('error', "Failed notification was cancelled by an administrator.");
+            gr1.update();
+        }
+
+        function info(message) {
+            //LOGGING/////////
+            var logType = "outbound";
+            var logTable = 'sysauto_script';
+            var id = gs.getProperty('x_onpr_onpage.scripts.cancel_failed_notifs');
+            var log = new x_onpr_onpage.log();
+            log.info(message, logType, logTable, id);
+        }
+    },
+    syncTargets: function() {
+        var sync = new x_onpr_onpage.sync();
+        sync.syncUsers();
+        sync.syncGroups();
+    },
+
+    type: 'bulkProcess'
+};]]></script>
         <sys_class_name>sys_script_include</sys_class_name>
         <sys_created_by>will.young</sys_created_by>
         <sys_created_on>2019-04-01 23:07:31</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>f34114fddb64f300c8c656594b9619ed</sys_id>
-        <sys_mod_count>5</sys_mod_count>
+        <sys_mod_count>8</sys_mod_count>
         <sys_name>bulkProcess</sys_name>
         <sys_package display_value="OnPage Integration" source="x_onpr_onpage">864f25ecdb8ca300ee685e25ca96192d</sys_package>
-        <sys_policy>read</sys_policy>
+        <sys_policy>protected</sys_policy>
         <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="OnPage Integration">864f25ecdb8ca300ee685e25ca96192d</sys_scope>
         <sys_update_name>sys_script_include_f34114fddb64f300c8c656594b9619ed</sys_update_name>
         <sys_updated_by>hamid.laghari</sys_updated_by>
-        <sys_updated_on>2026-09-21 20:24:00</sys_updated_on>
+        <sys_updated_on>2026-11-02 01:36:43</sys_updated_on>
     </sys_script_include>
 </record_update>

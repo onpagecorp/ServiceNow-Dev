@@ -38,6 +38,7 @@
         <sys_class_name>sys_script</sys_class_name>
         <sys_created_by>will.young</sys_created_by>
         <sys_created_on>2018-09-11 20:49:13</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>3821eba0dbe82740ee685e25ca961968</sys_id>
@@ -46,6 +47,7 @@
         <sys_overrides/>
         <sys_package display_value="OnPage Integration" source="x_onpr_onpage">864f25ecdb8ca300ee685e25ca96192d</sys_package>
         <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="OnPage Integration">864f25ecdb8ca300ee685e25ca96192d</sys_scope>
         <sys_update_name>sys_script_3821eba0dbe82740ee685e25ca961968</sys_update_name>
         <sys_updated_by>will.young</sys_updated_by>

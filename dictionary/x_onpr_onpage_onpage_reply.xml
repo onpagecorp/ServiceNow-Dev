@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?><database>
     <element db_object_id="96e2b0e11be492101c6ca86a234bcb23" label="OnPage Reply" max_length="40" name="x_onpr_onpage_onpage_reply" type="collection">
-        <element label="Description" max_length="1000" name="description" type="string"/>
-        <element attributes="ignore_filter_on_new=true" default="javascript:global.getNextObjNumberPadded();" label="Number" max_length="40" name="number" read_only="true" type="string"/>
         <element label="Parent" mandatory="true" max_length="32" name="parent" reference="x_onpr_onpage_onpage_reply_options" type="reference"/>
         <element label="Order" max_length="40" name="order" type="integer"/>
-        <element default="var table = this.targetTable,&#13;&#10;&#9;record = this.targetRec,&#13;&#10;&#9;user = this.responseUser;&#13;&#10;executeScript(table,record,user);&#13;&#10;function executeScript(table,record,user){&#13;&#10;&#9;var gr = new GlideRecord(table);&#13;&#10;&#9;if(gr.get(record)){&#13;&#10;&#9;&#9;///////////////////////////////////////&#13;&#10;&#9;&#9;////// set values on the target record&#13;&#10;&#9;&#9;//gr.setValue('','');&#13;&#10;&#13;&#10;&#13;&#10;&#9;&#9;//////////////////////////////////&#13;&#10;&#9;&#9;gr.update();&#13;&#10;&#9;}&#13;&#10;}" hint="Server-side script that runs on the record in the document field when this option is received in an OnPage reply." label="Script to Execute (Advanced)" max_length="8000" name="script" type="script"/>
+        <element label="Description" max_length="1000" name="description" type="string"/>
         <element display="true" label="Option Name" mandatory="true" max_length="40" name="option_name" type="string"/>
+        <element default="var table = this.targetTable,&#13;&#10;&#9;record = this.targetRec,&#13;&#10;&#9;user = this.responseUser;&#13;&#10;executeScript(table,record,user);&#13;&#10;function executeScript(table,record,user){&#13;&#10;&#9;var gr = new GlideRecord(table);&#13;&#10;&#9;if(gr.get(record)){&#13;&#10;&#9;&#9;///////////////////////////////////////&#13;&#10;&#9;&#9;////// set values on the target record&#13;&#10;&#9;&#9;//gr.setValue('','');&#13;&#10;&#13;&#10;&#13;&#10;&#9;&#9;//////////////////////////////////&#13;&#10;&#9;&#9;gr.update();&#13;&#10;&#9;}&#13;&#10;}" hint="Server-side script that runs on the record in the document field when this option is received in an OnPage reply." label="Script to Execute (Advanced)" max_length="8000" name="script" type="script"/>
+        <element attributes="ignore_filter_on_new=true" default="javascript:global.getNextObjNumberPadded();" label="Number" max_length="40" name="number" read_only="true" read_only_option="display_read_only" type="string"/>
+        <element default="global" label="Domain" max_length="32" name="sys_domain" read_only="true" read_only_option="display_read_only" type="domain_id"/>
         <index name="index">
             <element name="parent"/>
+        </index>
+        <index name="index2">
+            <element name="sys_domain"/>
         </index>
     </element>
 </database>

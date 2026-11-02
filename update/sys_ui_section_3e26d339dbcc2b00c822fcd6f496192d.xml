@@ -126,6 +126,20 @@
             <sys_user/>
             <type/>
         </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>sys_domain</element>
+            <position>9</position>
+            <sys_created_by>hamid.laghari</sys_created_by>
+            <sys_created_on>2026-10-20 17:38:22</sys_created_on>
+            <sys_id>ea31a3654744d710cfdde3cc236d4332</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_onpr_onpage_notification" sys_domain="global" view="Default view">3e26d339dbcc2b00c822fcd6f496192d</sys_ui_section>
+            <sys_updated_by>hamid.laghari</sys_updated_by>
+            <sys_updated_on>2026-10-20 17:38:22</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
         <sys_ui_section action="INSERT_OR_UPDATE">
             <caption/>
             <header>false</header>
@@ -134,6 +148,7 @@
             <sys_class_name>sys_ui_section</sys_class_name>
             <sys_created_by>David.Delahoz</sys_created_by>
             <sys_created_on>2018-08-21 20:41:14</sys_created_on>
+            <sys_customer_update>false</sys_customer_update>
             <sys_domain>global</sys_domain>
             <sys_domain_path>/</sys_domain_path>
             <sys_id>3e26d339dbcc2b00c822fcd6f496192d</sys_id>
@@ -142,6 +157,7 @@
             <sys_overrides/>
             <sys_package display_value="OnPage Integration" source="x_onpr_onpage">864f25ecdb8ca300ee685e25ca96192d</sys_package>
             <sys_policy/>
+            <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
             <sys_scope display_value="OnPage Integration">864f25ecdb8ca300ee685e25ca96192d</sys_scope>
             <sys_update_name>sys_ui_section_3e26d339dbcc2b00c822fcd6f496192d</sys_update_name>
             <sys_updated_by>David.Delahoz</sys_updated_by>

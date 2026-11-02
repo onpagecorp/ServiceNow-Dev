@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update>
+    <sys_script_fix action="DELETE">
+<before>false</before>
+<description>With the addition of the "Send When" field, we need to update all subscription records with an empty "Send When" field to the default 'Both'.</description>
+<name>Update OnPage Send When field if empty</name>
+<record_for_rollback>false</record_for_rollback>
+<script><![CDATA[var subs = new GlideRecord('x_onpr_onpage_onpage_subscription');
+subs.addQuery('send_when=NULL');
+subs.query();
+while(subs.next()){
+	subs.send_when = 'both';
+	subs.update();
+}]]></script>
+<sys_class_name>sys_script_fix</sys_class_name>
+<sys_created_by>toan.tran</sys_created_by>
+<sys_created_on>2021-05-18 22:05:05</sys_created_on>
+<sys_id>69686e081b9c3810ffb065b2604bcb4f</sys_id>
+<sys_mod_count>1</sys_mod_count>
+<sys_name>Update OnPage Send When field if empty</sys_name>
+<sys_package display_value="OnPage Integration" source="x_onpr_onpage">864f25ecdb8ca300ee685e25ca96192d</sys_package>
+<sys_policy/>
+<sys_scope display_value="OnPage Integration">864f25ecdb8ca300ee685e25ca96192d</sys_scope>
+<sys_update_name>sys_script_fix_69686e081b9c3810ffb065b2604bcb4f</sys_update_name>
+<sys_updated_by>toan.tran</sys_updated_by>
+<sys_updated_on>2021-05-18 22:05:45</sys_updated_on>
+<unloadable>false</unloadable>
+</sys_script_fix>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="OnPage Integration">864f25ecdb8ca300ee685e25ca96192d</application>
+        <file_path/>
+        <instance_id>5e3914cfdbc2c380563b7236bf96199a</instance_id>
+        <instance_name>ven02252</instance_name>
+        <name>sys_script_fix_69686e081b9c3810ffb065b2604bcb4f</name>
+        <payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update&gt;&lt;sys_script_fix action="INSERT_OR_UPDATE"&gt;
+&lt;before&gt;false&lt;/before&gt;
+&lt;description&gt;With the addition of the "Send When" field, we need to update all subscription records with an empty "Send When" field to the default 'Both'.&lt;/description&gt;
+&lt;name&gt;Update OnPage Send When field if empty&lt;/name&gt;
+&lt;record_for_rollback&gt;false&lt;/record_for_rollback&gt;
+&lt;script&gt;&lt;![CDATA[var subs = new GlideRecord('x_onpr_onpage_onpage_subscription');
+subs.addQuery('send_when=NULL');
+subs.query();
+while(subs.next()){
+	subs.send_when = 'both';
+	subs.update();
+}]]&gt;&lt;/script&gt;
+&lt;sys_class_name&gt;sys_script_fix&lt;/sys_class_name&gt;
+&lt;sys_created_by&gt;toan.tran&lt;/sys_created_by&gt;
+&lt;sys_created_on&gt;2021-05-18 22:05:05&lt;/sys_created_on&gt;
+&lt;sys_id&gt;69686e081b9c3810ffb065b2604bcb4f&lt;/sys_id&gt;
+&lt;sys_mod_count&gt;1&lt;/sys_mod_count&gt;
+&lt;sys_name&gt;Update OnPage Send When field if empty&lt;/sys_name&gt;
+&lt;sys_package display_value="OnPage Integration" source="x_onpr_onpage"&gt;864f25ecdb8ca300ee685e25ca96192d&lt;/sys_package&gt;
+&lt;sys_policy/&gt;
+&lt;sys_scope display_value="OnPage Integration"&gt;864f25ecdb8ca300ee685e25ca96192d&lt;/sys_scope&gt;
+&lt;sys_update_name&gt;sys_script_fix_69686e081b9c3810ffb065b2604bcb4f&lt;/sys_update_name&gt;
+&lt;sys_updated_by&gt;toan.tran&lt;/sys_updated_by&gt;
+&lt;sys_updated_on&gt;2021-05-18 22:05:45&lt;/sys_updated_on&gt;
+&lt;unloadable&gt;false&lt;/unloadable&gt;
+&lt;/sys_script_fix&gt;&lt;/record_update&gt;</payload>
+        <payload_hash>-6566453</payload_hash>
+        <record_name>Update OnPage Send When field if empty</record_name>
+        <reverted_from/>
+        <source>b422938d1bbb03107f50cb35604bcb0c</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>hamid.laghari</sys_created_by>
+        <sys_created_on>2026-10-06 15:43:15</sys_created_on>
+        <sys_id>73904fc11b7b03107f50cb35604bcb74</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_recorded_at>1a111e223860000001</sys_recorded_at>
+        <sys_updated_by>hamid.laghari</sys_updated_by>
+        <sys_updated_on>2026-10-06 17:02:57</sys_updated_on>
+        <type>Fix Script</type>
+        <update_guid>33904fc1d27b03103145cb775394f473</update_guid>
+        <update_guid_history>33904fc1d27b03103145cb775394f473:-6566453,2db8bb3b2aafcb10a5f3bf4f5c317649:969145873,15b94998d663c310ab56c19419158a2a:75444369,4bd68419226e0310d09aa35e558059e3:-477614359</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>toan.tran</sys_created_by>
+        <sys_created_on>2026-10-06 15:44:58</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_db_object display_value="" name="sys_script_fix">sys_script_fix</sys_db_object>
+        <sys_id>81b6a3280a4b4bc3b1e172869a1f96b9</sys_id>
+        <sys_metadata>69686e081b9c3810ffb065b2604bcb4f</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Update OnPage Send When field if empty</sys_name>
+        <sys_package display_value="OnPage Integration" source="x_onpr_onpage">864f25ecdb8ca300ee685e25ca96192d</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="OnPage Integration">864f25ecdb8ca300ee685e25ca96192d</sys_scope>
+        <sys_scope_delete display_value="">33d60e4152d64f7c9bf7959ea18f9e84</sys_scope_delete>
+        <sys_update_name>sys_script_fix_69686e081b9c3810ffb065b2604bcb4f</sys_update_name>
+        <sys_update_version display_value="sys_script_fix_69686e081b9c3810ffb065b2604bcb4f">73904fc11b7b03107f50cb35604bcb74</sys_update_version>
+        <sys_updated_by>toan.tran</sys_updated_by>
+        <sys_updated_on>2026-10-06 15:44:58</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

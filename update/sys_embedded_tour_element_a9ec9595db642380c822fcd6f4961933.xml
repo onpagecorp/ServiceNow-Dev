@@ -29,14 +29,15 @@
         <sys_class_name>sys_embedded_tour_element</sys_class_name>
         <sys_created_by>lorena.villanueva</sys_created_by>
         <sys_created_on>2018-09-13 19:05:50</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
         <sys_domain>global</sys_domain>
-        <sys_domain_path>/</sys_domain_path>
         <sys_id>a9ec9595db642380c822fcd6f4961933</sys_id>
         <sys_mod_count>0</sys_mod_count>
         <sys_name>7c305268dba42740ee685e25ca961932.17.xpat</sys_name>
         <sys_overrides/>
         <sys_package display_value="OnPage Integration" source="x_onpr_onpage">864f25ecdb8ca300ee685e25ca96192d</sys_package>
         <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="OnPage Integration">864f25ecdb8ca300ee685e25ca96192d</sys_scope>
         <sys_update_name>sys_embedded_tour_element_a9ec9595db642380c822fcd6f4961933</sys_update_name>
         <sys_updated_by>lorena.villanueva</sys_updated_by>

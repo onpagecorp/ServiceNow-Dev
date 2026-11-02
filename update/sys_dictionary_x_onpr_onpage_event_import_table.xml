@@ -39,6 +39,7 @@
         <next_element/>
         <primary>false</primary>
         <read_only>false</read_only>
+        <read_only_option/>
         <read_roles/>
         <reference/>
         <reference_cascade_rule/>
@@ -52,9 +53,11 @@
         <sys_class_name>sys_dictionary</sys_class_name>
         <sys_created_by>David.Delahoz</sys_created_by>
         <sys_created_on>2018-08-24 13:48:29</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
         <sys_name>Table</sys_name>
         <sys_package display_value="OnPage Integration" source="x_onpr_onpage">864f25ecdb8ca300ee685e25ca96192d</sys_package>
         <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="OnPage Integration">864f25ecdb8ca300ee685e25ca96192d</sys_scope>
         <sys_update_name>sys_dictionary_x_onpr_onpage_event_import_table</sys_update_name>
         <sys_updated_by>David.Delahoz</sys_updated_by>

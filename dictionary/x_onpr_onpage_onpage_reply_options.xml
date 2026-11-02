@@ -1,21 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?><database>
     <element db_object_id="dee270e11be492101c6ca86a234bcbdd" label="OnPage Reply Options" max_length="40" name="x_onpr_onpage_onpage_reply_options" type="collection">
+        <element default="global" label="Domain" max_length="32" name="sys_domain" read_only="true" read_only_option="display_read_only" type="domain_id"/>
+        <element label="Owner" mandatory="true" max_length="32" name="owner" reference="sys_user" type="reference"/>
+        <element label="Description" max_length="1000" name="description" type="string"/>
         <element label="Default" max_length="40" name="default" type="boolean"/>
+        <element hint="Can only be modified by administrators" label="Execute Scripts" max_length="40" name="execute_scripts" type="boolean"/>
+        <element hint="Makes the template visible to other users" label="Public" max_length="40" name="public" type="boolean"/>
         <element choice="3" default="subscription" label="Recipient Type" max_length="40" name="recipient_type" type="choice">
             <choice>
-                <element inactive_on_update="false" label="Subscription" sequence="100" value="subscription"/>
                 <element inactive_on_update="false" label="Direct Reference" sequence="200" value="direct_reference"/>
+                <element inactive_on_update="false" label="Subscription" sequence="100" value="subscription"/>
             </choice>
         </element>
-        <element label="Table" mandatory="true" max_length="80" name="table" type="table_name"/>
-        <element label="Owner" mandatory="true" max_length="32" name="owner" reference="sys_user" type="reference"/>
-        <element hint="Makes the template visible to other users" label="Public" max_length="40" name="public" type="boolean"/>
-        <element hint="Can only be modified by administrators" label="Execute Scripts" max_length="40" name="execute_scripts" type="boolean"/>
         <element display="true" label="Name" mandatory="true" max_length="100" name="name" type="string"/>
+        <element label="Table" mandatory="true" max_length="80" name="table" type="table_name"/>
         <element attributes="ignore_filter_on_new=true" default="javascript:global.getNextObjNumberPadded();" label="Number" max_length="40" name="number" type="string"/>
-        <element label="Description" max_length="1000" name="description" type="string"/>
         <index name="index">
             <element name="owner"/>
+        </index>
+        <index name="index2">
+            <element name="sys_domain"/>
         </index>
     </element>
 </database>

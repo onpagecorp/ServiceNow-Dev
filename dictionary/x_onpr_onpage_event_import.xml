@@ -1,33 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?><database>
     <element db_object_id="e1e230e11be492101c6ca86a234bcbf3" extends="sys_import_set_row" label="Onpage Event Import" max_length="40" name="x_onpr_onpage_event_import" type="collection">
+        <element label="ServiceNow ID" max_length="40" name="sn_id" type="string"/>
+        <element label="Timestamp" max_length="40" name="timestamp" type="glide_date_time"/>
+        <element dependent="table" dependent_on_field="table" label="Document ID" max_length="32" name="document_id" type="document_id" use_dependent_field="true"/>
+        <element label="OPID" max_length="40" name="opid" type="string"/>
+        <element label="Current" max_length="1000" name="current" type="string_full_utf8"/>
+        <element default="global" label="Domain" max_length="32" name="sys_domain" read_only="true" read_only_option="display_read_only" type="domain_id"/>
         <element label="Value" max_length="40" name="value" type="string"/>
         <element choice="1" label="Type" max_length="40" name="type" type="choice">
             <choice>
-                <element inactive_on_update="false" label="Outbound" value="outbound"/>
                 <element inactive_on_update="false" label="Internal" value="internal"/>
                 <element inactive_on_update="false" label="Inbound" value="inbound"/>
+                <element inactive_on_update="false" label="Outbound" value="outbound"/>
             </choice>
         </element>
-        <element dependent="table" dependent_on_field="table" label="Document ID" max_length="32" name="document_id" type="document_id" use_dependent_field="true"/>
+        <element label="Previous" max_length="1000" name="previous" type="string_full_utf8"/>
+        <element label="Reply Option" max_length="3500" name="replyoption" type="string"/>
+        <element label="Table" max_length="80" name="table" type="table_name"/>
         <element choice="1" label="Status" max_length="40" name="status" type="choice">
             <choice>
-                <element inactive_on_update="false" label="Error" value="error"/>
-                <element inactive_on_update="false" label="Ignored" value="ignored"/>
                 <element inactive_on_update="false" label="New" value="new"/>
-                <element inactive_on_update="false" label="Processed" value="processed"/>
                 <element inactive_on_update="false" label="Retry" value="retry"/>
+                <element inactive_on_update="false" label="Ignored" value="ignored"/>
+                <element inactive_on_update="false" label="Processed" value="processed"/>
+                <element inactive_on_update="false" label="Error" value="error"/>
             </choice>
         </element>
-        <element label="Timestamp" max_length="40" name="timestamp" type="glide_date_time"/>
-        <element label="Table" max_length="80" name="table" type="table_name"/>
-        <element label="ServiceNow ID" max_length="40" name="sn_id" type="string"/>
-        <element label="Reply Option" max_length="40" name="replyoption" type="string"/>
-        <element label="Current" max_length="1000" name="current" type="string_full_utf8"/>
-        <element label="Previous" max_length="1000" name="previous" type="string_full_utf8"/>
-        <element label="OPID" max_length="40" name="opid" type="string"/>
-        <element attributes="ignore_filter_on_new=true" default="javascript:global.getNextObjNumberPadded();" display="true" label="Number" max_length="40" name="number" read_only="true" type="string"/>
+        <element attributes="ignore_filter_on_new=true" default="javascript:global.getNextObjNumberPadded();" display="true" label="Number" max_length="40" name="number" read_only="true" read_only_option="display_read_only" type="string"/>
         <index name="index">
             <element name="document_id"/>
+        </index>
+        <index name="index2">
+            <element name="sys_domain"/>
         </index>
     </element>
 </database>

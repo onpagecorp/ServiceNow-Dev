@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><record_update table="sysauto_script">
     <sysauto_script action="INSERT_OR_UPDATE">
         <active>true</active>
-        <advanced>false</advanced>
+        <advanced>true</advanced>
         <business_calendar/>
         <condition/>
         <conditional>false</conditional>
@@ -19,14 +19,14 @@
         <run_dayofweek>1</run_dayofweek>
         <run_daysofweek/>
         <run_end/>
-        <run_month/>
+        <run_month>1</run_month>
         <run_period/>
         <run_start>2018-09-06 19:06:52</run_start>
         <run_time>1970-01-01 05:01:00</run_time>
         <run_type>daily</run_type>
-        <run_weekinmonth/>
+        <run_weekinmonth>1</run_weekinmonth>
         <script><![CDATA[/* As the OnPage plugin admin contact (onpage.administrator.email) I need to be notified when there are large queues of events or notifications which have not sent or have errors. I will define the thresholds in the app properties specified [in brackets].
-**/
+ **/
 
 //1. Notification queue count more than X (status==send-ready||status==error) [onpage.errors.notification_q]
 var notQueue = gs.getProperty('onpage.errors.notification_q');
@@ -36,35 +36,44 @@ nots.addEncodedQuery('status=send-ready^ORstatus=error');
 nots.query();
 var count = 0;
 while (nots.next()) {
-	count ++;
+    count++;
 }
-if(count > notQueue){
-// 	gs.eventQueue('x_onpr_onpage.notification_queue',nots);
+if (count > notQueue) {
+    // 	gs.eventQueue('x_onpr_onpage.notification_queue',nots);
 
-	// to be added
-		var id = nots.getUniqueValue();
-		nots.setValue('status',"sending");
-		nots.update();
-		var //doc = current.getValue('document_id'),
-			doc = nots.getUniqueValue(),
-			sd = nots.getValue('short_description'),
-			body = nots.getValue('body'),
-			recip = nots.getValue('recipients').split(","),
-			priority = nots.getValue('priority'),
-			options = nots.getValue('reply_options'),
-			reply = '';
-			if(options!=''&&options!=null){
-				reply = options.split(",");
-			}
-		var resp = new x_onpr_onpage.workflow().sendRestMessage(doc,sd,body,recip,priority,reply,id);
-		var ans = resp.split(';'),
-			status = ans[0];
-// 		if(status=="error"){
-// 			nots.setValue('error',ans[1]);
-// 		}
+    // to be added
+    var id = nots.getUniqueValue();
+    nots.setValue('status', "sending");
+    nots.update();
+    var //doc = current.getValue('document_id'),
+        doc = nots.getUniqueValue(),
+        sd = nots.getValue('short_description'),
+        body = nots.getValue('body'),
+        recip = nots.getValue('recipients').split(","),
+        priority = nots.getValue('priority'),
+        options = nots.getValue('reply_options'),
+        reply = '';
+    if (options != '' && options != null) {
+        reply = options.split(",");
+    }
+    var resp = new x_onpr_onpage.workflow().sendRestMessage(doc, sd, body, recip, priority, reply, id);
+    var ans = resp.split(';'),
+        status = ans[0];
+    if (status == "error") {
+        nots.setValue('status', 'error');
+        nots.setValue('error', ans[1]);
+        nots.update();
+    }
+    // if sending, ECC BR will update status when response arrives
+    // 		var resp = new x_onpr_onpage.workflow().sendRestMessage(doc,sd,body,recip,priority,reply,id);
+    // 		var ans = resp.split(';'),
+    // 			status = ans[0];
+    // // 		if(status=="error"){
+    // // 			nots.setValue('error',ans[1]);
+    // // 		}
 
-		nots.setValue('status',status);
-		nots.update();
+    // 		nots.setValue('status',status);
+    // 		nots.update();
 }
 
 
@@ -108,20 +117,21 @@ if(count > notQueue){
 // while(eventsAge.next()){
 // 	gs.info('testing4');
 // 	gs.eventQueue('x_onpr_onpage.events_queue', eventsAge);
-// }
-]]></script>
+// }]]></script>
         <sys_class_name>sysauto_script</sys_class_name>
         <sys_created_by>lorena.villanueva</sys_created_by>
         <sys_created_on>2018-09-06 19:07:36</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
         <sys_id>100a99cbdbd82340ee685e25ca96194b</sys_id>
-        <sys_mod_count>23</sys_mod_count>
+        <sys_mod_count>24</sys_mod_count>
         <sys_name>Administrator Alerting</sys_name>
         <sys_package display_value="OnPage Integration" source="x_onpr_onpage">864f25ecdb8ca300ee685e25ca96192d</sys_package>
         <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="OnPage Integration">864f25ecdb8ca300ee685e25ca96192d</sys_scope>
         <sys_update_name>sysauto_script_100a99cbdbd82340ee685e25ca96194b</sys_update_name>
-        <sys_updated_by>will.young</sys_updated_by>
-        <sys_updated_on>2019-02-20 22:25:42</sys_updated_on>
+        <sys_updated_by>hamid.laghari</sys_updated_by>
+        <sys_updated_on>2026-11-01 03:17:50</sys_updated_on>
         <time_zone/>
         <upgrade_safe>false</upgrade_safe>
     </sysauto_script>

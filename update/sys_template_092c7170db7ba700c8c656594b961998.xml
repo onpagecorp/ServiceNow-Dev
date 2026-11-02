@@ -15,12 +15,14 @@
         <sys_class_name>sys_template</sys_class_name>
         <sys_created_by>will.young</sys_created_by>
         <sys_created_on>2019-02-20 21:33:27</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
         <sys_domain>global</sys_domain>
         <sys_id>092c7170db7ba700c8c656594b961998</sys_id>
         <sys_mod_count>0</sys_mod_count>
         <sys_name>OnPage Incident Torture Test</sys_name>
         <sys_package display_value="OnPage Integration" source="x_onpr_onpage">864f25ecdb8ca300ee685e25ca96192d</sys_package>
         <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="OnPage Integration">864f25ecdb8ca300ee685e25ca96192d</sys_scope>
         <sys_update_name>sys_template_092c7170db7ba700c8c656594b961998</sys_update_name>
         <sys_updated_by>will.young</sys_updated_by>
@@ -31,7 +33,10 @@
 In hac habitasse platea dictumst. Mauris bibendum tellus ligula, vel luctus lorem ultrices a. Praesent ac semper elit, ac convallis nulla. Quisque laoreet eleifend mi, in sagittis risus auctor nec. Suspendisse potenti. Nullam elit velit, placerat at odio sit amet, porttitor cursus ante. Mauris neque tortor, interdum non odio ac, lobortis condimentum tellus. Maecenas at sagittis mauris, sit amet porta ex. Integer ut rhoncus mi. Nullam imperdiet imperdiet lacus, nec congue lorem varius ullamcorper. Duis nec ligula pharetra, vestibulum enim vel, varius ipsum. Sed consectetur odio nec dui luctus, vel dictum velit suscipit. In accumsan eget neque ut malesuada. Nunc bibendum tortor dolor, ut luctus odio posuere eu. Proin ut mollis neque, quis consequat est.&#13;
 &#13;
 Suspendisse aliquet aliquam massa, at suscipit diam semper sit amet. Etiam eget nisi vulputate mi imperdiet facilisis non id sem. Vestibulum gravida auctor mauris, non congue magna blandit id. Curabitur erat diam, rutrum ac suscipit ut, porta vitae nibh. Nulla mauris nisi, egestas id ipsum bibendum, convallis cursus eros. Nunc vestibulum luctus odio at laoreet. Pellentesque non risus imperdiet, pharetra orci vitae, lobortis ligula. Pellentesque dignissim ultricies sagittis. Nunc ultrices sapien lectus, viverra tempor dui elementum in. Curabitur imperdiet, leo condimentum fringilla accumsan, magna orci tempus metus, quis sollicitudin ex mauris et felis. Praesent dapibus eu neque non porttitor. Donec in mauris odio. Pellentesque in ligula eget est viverra fermentum. Aenean sed bibendum lectus.^assignment_group=b85d44954a3623120004689b2d5dd60a^short_description=OnPage Incident Torture Test^EQ</template>
-        <user display_value="Will Young">9e3d674ddb162010377b12261b961961</user>
+        <template_condition/>
+        <template_v2/>
+        <user display_value="Will Young">831e178fdbb9a300c8c656594b961952</user>
+        <v2>false</v2>
         <view/>
     </sys_template>
 </record_update>

@@ -10,11 +10,13 @@
         <sys_class_name>sys_properties</sys_class_name>
         <sys_created_by>will.young</sys_created_by>
         <sys_created_on>2018-08-17 16:34:05</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
         <sys_id>b827fda4dbcca300ee685e25ca961985</sys_id>
         <sys_mod_count>10</sys_mod_count>
         <sys_name>x_onpr_onpage.incident_alert.enabled</sys_name>
         <sys_package display_value="OnPage Integration" source="x_onpr_onpage">864f25ecdb8ca300ee685e25ca96192d</sys_package>
         <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="OnPage Integration">864f25ecdb8ca300ee685e25ca96192d</sys_scope>
         <sys_update_name>sys_properties_b827fda4dbcca300ee685e25ca961985</sys_update_name>
         <sys_updated_by>abduk</sys_updated_by>

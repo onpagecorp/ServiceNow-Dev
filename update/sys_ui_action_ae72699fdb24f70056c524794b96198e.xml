@@ -8,6 +8,7 @@
         <condition/>
         <form_action>false</form_action>
         <form_button>false</form_button>
+        <form_button_icon/>
         <form_button_v2>false</form_button_v2>
         <form_context_menu>false</form_context_menu>
         <form_link>false</form_link>
@@ -19,6 +20,7 @@
         <list_action>true</list_action>
         <list_banner_button>true</list_banner_button>
         <list_button>true</list_button>
+        <list_button_icon/>
         <list_choice>false</list_choice>
         <list_context_menu>false</list_context_menu>
         <list_link>false</list_link>
@@ -29,13 +31,16 @@
         <onclick/>
         <order>100</order>
         <script><![CDATA[new x_onpr_onpage.bulkProcess().sendFailed();]]></script>
+        <show_form_icon_only>false</show_form_icon_only>
         <show_insert>false</show_insert>
+        <show_list_icon_only>false</show_list_icon_only>
         <show_multiple_update>false</show_multiple_update>
         <show_query>false</show_query>
         <show_update>true</show_update>
         <sys_class_name>sys_ui_action</sys_class_name>
         <sys_created_by>will.young</sys_created_by>
         <sys_created_on>2019-04-06 20:50:20</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>ae72699fdb24f70056c524794b96198e</sys_id>
@@ -44,6 +49,7 @@
         <sys_overrides/>
         <sys_package display_value="OnPage Integration" source="x_onpr_onpage">864f25ecdb8ca300ee685e25ca96192d</sys_package>
         <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="OnPage Integration">864f25ecdb8ca300ee685e25ca96192d</sys_scope>
         <sys_update_name>sys_ui_action_ae72699fdb24f70056c524794b96198e</sys_update_name>
         <sys_updated_by>will.young</sys_updated_by>

@@ -3,6 +3,7 @@
         <active>true</active>
         <application display_value="OnPage Administration">eb4e19fadb0cab00c822fcd6f49619d0</application>
         <assessment/>
+        <content_page/>
         <device_type/>
         <filter table="x_onpr_onpage_onpage_subscription">type=subscription^EQ<item display_value="Subscription" endquery="false" field="type" goto="false" newquery="false" operator="=" or="false" value="subscription"/>
             <item endquery="true" field="" goto="false" newquery="false" operator="=" or="false" value=""/>
@@ -21,9 +22,14 @@
         <report/>
         <require_confirmation>false</require_confirmation>
         <roles>x_onpr_onpage.admin</roles>
+        <route/>
+        <screen/>
+        <survey/>
+        <survey_overwrite>false</survey_overwrite>
         <sys_class_name>sys_app_module</sys_class_name>
         <sys_created_by>will.young</sys_created_by>
         <sys_created_on>2018-09-06 18:20:27</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>542fc983dbd82340ee685e25ca96190a</sys_id>
@@ -32,6 +38,7 @@
         <sys_overrides/>
         <sys_package display_value="OnPage Integration" source="x_onpr_onpage">864f25ecdb8ca300ee685e25ca96192d</sys_package>
         <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="OnPage Integration">864f25ecdb8ca300ee685e25ca96192d</sys_scope>
         <sys_update_name>sys_app_module_542fc983dbd82340ee685e25ca96190a</sys_update_name>
         <sys_updated_by>will.young</sys_updated_by>
@@ -39,6 +46,7 @@
         <timeline_page/>
         <title>OnPage Subscriptions</title>
         <uncancelable>false</uncancelable>
+        <ux_list/>
         <view_name/>
         <window_name/>
     </sys_app_module>

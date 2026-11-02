@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_onpr_onpage.notificationHelper</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <mobile_callable>false</mobile_callable>
+        <name>notificationHelper</name>
+        <sandbox_callable>false</sandbox_callable>
+        <script><![CDATA[var notificationHelper = Class.create();
+notificationHelper.prototype = {
+    initialize: function() {},
+    addNotifications: function(targetTable, targetRec, message) {
+        var grNotification = new GlideRecordSecure('x_onpr_onpage_notification');
+        grNotification.initialize();
+        grNotification.setValue('status', 'received');
+        grNotification.setValue('parent', '');
+        grNotification.setValue('table', targetTable);
+        grNotification.setValue('document_id', targetRec);
+        grNotification.setValue('short_description', 'OnPage Response');
+        grNotification.setValue('priority', "LOW");
+        grNotification.setValue('body', message);
+        grNotification.insert();
+
+    },
+
+    type: 'notificationHelper'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>hamid.laghari</sys_created_by>
+        <sys_created_on>2026-10-30 18:59:02</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>9ce2df3c1b181b1015bc5286624bcbf8</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>notificationHelper</sys_name>
+        <sys_package display_value="OnPage Integration" source="x_onpr_onpage">864f25ecdb8ca300ee685e25ca96192d</sys_package>
+        <sys_policy>protected</sys_policy>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="OnPage Integration">864f25ecdb8ca300ee685e25ca96192d</sys_scope>
+        <sys_update_name>sys_script_include_9ce2df3c1b181b1015bc5286624bcbf8</sys_update_name>
+        <sys_updated_by>hamid.laghari</sys_updated_by>
+        <sys_updated_on>2026-11-02 01:36:42</sys_updated_on>
+    </sys_script_include>
+    <sys_es_latest_script action="INSERT_OR_UPDATE">
+        <id>9ce2df3c1b181b1015bc5286624bcbf8</id>
+        <sys_created_by>hamid.laghari</sys_created_by>
+        <sys_created_on>2026-10-30 18:59:01</sys_created_on>
+        <sys_id>699357701b581b1015bc5286624bcbb7</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>hamid.laghari</sys_updated_by>
+        <sys_updated_on>2026-10-30 18:59:01</sys_updated_on>
+        <table>sys_script_include</table>
+        <use_es_latest>true</use_es_latest>
+    </sys_es_latest_script>
+</record_update>

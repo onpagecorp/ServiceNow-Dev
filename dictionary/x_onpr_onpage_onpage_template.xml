@@ -1,32 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?><database>
     <element db_object_id="cee270e11be492101c6ca86a234bcb8e" label="OnPage Template" max_length="40" name="x_onpr_onpage_onpage_template" type="collection">
-        <element label="Body" mandatory="true" max_length="10000" name="body" type="string_full_utf8"/>
-        <element label="Subject" mandatory="true" max_length="100" name="subject" type="string"/>
-        <element label="Recipients" max_length="4000" name="recipients" reference="x_onpr_onpage_target" reference_qual="active=true^opidISNOTEMPTY^document_idANYTHING^block_message_typesISEMPTY^ORblock_message_typesNOT LIKEdirect_reference^EQ" reference_qual_condition="active=true^opidISNOTEMPTY^document_idANYTHING^block_message_typesISEMPTY^ORblock_message_typesNOT LIKEdirect_reference^EQ" type="glide_list"/>
-        <element hint="Makes the template visible to other users" label="Public" max_length="40" name="public" type="boolean"/>
-        <element label="Owner" mandatory="true" max_length="32" name="owner" reference="sys_user" type="reference"/>
-        <element display="true" label="Name" mandatory="true" max_length="100" name="name" type="string"/>
-        <element label="Reply Options" max_length="32" name="reply_options" reference="x_onpr_onpage_onpage_reply_options" reference_qual="javascript: &quot;table=&quot; + current.table  + &quot;^recipient_type=&quot; + current.notification_type  + &quot;^ownerIN&quot; + gs.getUserID() + &quot;,&quot; + current.owner + &quot;^ORpublic=true^ORdefault=true&quot;" type="reference" use_reference_qualifier="advanced"/>
-        <element choice="3" default="LOW" label="Priority" max_length="10" name="priority" type="choice">
-            <choice>
-                <element inactive_on_update="false" label="LOW" sequence="100" value="LOW"/>
-                <element inactive_on_update="false" label="HIGH" sequence="200" value="HIGH"/>
-            </choice>
-        </element>
-        <element attributes="ignore_filter_on_new=true" default="javascript:global.getNextObjNumberPadded();" label="Number" max_length="40" name="number" read_only="true" type="string"/>
         <element choice="3" default="subscription" label="Notification Type" max_length="40" name="notification_type" type="choice">
             <choice>
-                <element inactive_on_update="false" label="Subscription" sequence="100" value="subscription"/>
                 <element inactive_on_update="false" label="Direct Reference" sequence="200" value="direct_reference"/>
+                <element inactive_on_update="false" label="Subscription" sequence="100" value="subscription"/>
             </choice>
         </element>
-        <element label="Template Values" max_length="10000" name="template_values" read_only="true" type="string_full_utf8"/>
+        <element label="Body" mandatory="true" max_length="10000" name="body" type="string_full_utf8"/>
+        <element display="true" label="Name" mandatory="true" max_length="100" name="name" type="string"/>
+        <element label="Subject" mandatory="true" max_length="100" name="subject" type="string"/>
+        <element label="Reply Options" max_length="32" name="reply_options" reference="x_onpr_onpage_onpage_reply_options" reference_qual="javascript: &quot;table=&quot; + current.table  + &quot;^recipient_type=&quot; + current.notification_type  + &quot;^ownerIN&quot; + gs.getUserID() + &quot;,&quot; + current.owner + &quot;^ORpublic=true^ORdefault=true&quot;" type="reference" use_reference_qualifier="advanced"/>
+        <element label="Template Values" max_length="10000" name="template_values" read_only="true" read_only_option="display_read_only" type="string_full_utf8"/>
+        <element default="global" label="Domain" max_length="32" name="sys_domain" read_only="true" read_only_option="display_read_only" type="domain_id"/>
+        <element hint="Makes the template visible to other users" label="Public" max_length="40" name="public" type="boolean"/>
+        <element label="Recipients" max_length="4000" name="recipients" reference="x_onpr_onpage_target" reference_qual="active=true^opidISNOTEMPTY^document_idANYTHING^block_message_typesISEMPTY^ORblock_message_typesNOT LIKEdirect_reference^EQ" reference_qual_condition="active=true^opidISNOTEMPTY^document_idANYTHING^block_message_typesISEMPTY^ORblock_message_typesNOT LIKEdirect_reference^EQ" type="glide_list"/>
+        <element choice="3" default="LOW" label="Priority" max_length="10" name="priority" type="choice">
+            <choice>
+                <element inactive_on_update="false" label="HIGH" sequence="200" value="HIGH"/>
+                <element inactive_on_update="false" label="LOW" sequence="100" value="LOW"/>
+            </choice>
+        </element>
         <element label="Table" mandatory="true" max_length="80" name="table" type="table_name"/>
+        <element label="Owner" mandatory="true" max_length="32" name="owner" reference="sys_user" type="reference"/>
+        <element attributes="ignore_filter_on_new=true" default="javascript:global.getNextObjNumberPadded();" label="Number" max_length="40" name="number" read_only="true" read_only_option="display_read_only" type="string"/>
         <index name="index">
             <element name="owner"/>
         </index>
         <index name="index2">
             <element name="reply_options"/>
+        </index>
+        <index name="index3">
+            <element name="sys_domain"/>
         </index>
     </element>
 </database>

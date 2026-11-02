@@ -1,30 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?><database>
     <element audit="true" db_object_id="30e2bca11be492101c6ca86a234bcbdf" label="Onpage Notification" max_length="40" name="x_onpr_onpage_notification" type="collection">
-        <element default="0" label="Retries" max_length="40" name="retries" read_only="true" type="integer"/>
-        <element label="OnPage ID" max_length="40" name="onpage_id" read_only="true" type="string"/>
-        <element label="Parent Event" max_length="32" name="parent" read_only="true" reference="x_onpr_onpage_event" type="reference"/>
         <element label="Prority" max_length="10" name="prority" type="string"/>
-        <element label="Reply Options" max_length="1000" name="reply_options" type="string"/>
-        <element label="Template" max_length="32" name="template" reference="x_onpr_onpage_onpage_template" type="reference"/>
-        <element label="Error" max_length="1000" name="error" read_only="true" type="string"/>
-        <element label="Recipients" max_length="40" name="recipients" type="string"/>
-        <element choice="1" label="Status" max_length="40" name="status" read_only="true" type="choice">
+        <element choice="1" label="Status" max_length="40" name="status" read_only="true" read_only_option="display_read_only" type="choice">
             <choice>
                 <element inactive_on_update="false" label="Send Ready" value="send-ready"/>
-                <element inactive_on_update="false" label="Error" value="error"/>
-                <element inactive_on_update="false" label="Failed" value="failed"/>
-                <element inactive_on_update="false" label="Applied" value="applied"/>
-                <element inactive_on_update="false" label="Sent" value="sent"/>
-                <element inactive_on_update="false" label="Received" value="received"/>
-                <element inactive_on_update="false" label="Sending" value="sending"/>
                 <element inactive_on_update="false" label="Cancelled" value="cancelled"/>
+                <element inactive_on_update="false" label="Received" value="received"/>
+                <element inactive_on_update="false" label="Applied" value="applied"/>
+                <element inactive_on_update="false" label="Failed" value="failed"/>
+                <element inactive_on_update="false" label="Sent" value="sent"/>
+                <element inactive_on_update="false" label="Sending" value="sending"/>
+                <element inactive_on_update="false" label="Error" value="error"/>
             </choice>
         </element>
-        <element label="Short Description" max_length="40" name="short_description" type="string"/>
-        <element label="Table" max_length="80" name="table" read_only="true" type="table_name"/>
-        <element attributes="ignore_filter_on_new=true" default="javascript:global.getNextObjNumberPadded();" label="Number" max_length="40" name="number" read_only="true" type="string"/>
-        <element label="Body" max_length="800" name="body" type="string_full_utf8"/>
-        <element dependent="table" dependent_on_field="table" label="Target Record" max_length="32" name="document_id" read_only="true" type="document_id" use_dependent_field="true"/>
+        <element label="OnPage ID" max_length="40" name="onpage_id" read_only="true" read_only_option="display_read_only" type="string"/>
+        <element label="Body" max_length="3500" name="body" type="string_full_utf8"/>
+        <element label="Reply Options" max_length="1000" name="reply_options" type="string"/>
+        <element label="Short Description" max_length="3500" name="short_description" type="string"/>
+        <element label="Parent Event" max_length="32" name="parent" read_only="true" read_only_option="display_read_only" reference="x_onpr_onpage_event" type="reference"/>
+        <element dependent="table" dependent_on_field="table" label="Target Record" max_length="32" name="document_id" read_only="true" read_only_option="display_read_only" type="document_id" use_dependent_field="true"/>
+        <element label="Error" max_length="1000" name="error" read_only="true" read_only_option="display_read_only" type="string"/>
+        <element label="Template" max_length="32" name="template" reference="x_onpr_onpage_onpage_template" type="reference"/>
+        <element label="Table" max_length="80" name="table" read_only="true" read_only_option="display_read_only" type="table_name"/>
+        <element default="global" label="Domain" max_length="32" name="sys_domain" read_only="true" read_only_option="display_read_only" type="domain_id"/>
+        <element default="0" label="Retries" max_length="40" name="retries" read_only="true" read_only_option="display_read_only" type="integer"/>
+        <element label="Recipients" max_length="40" name="recipients" type="string"/>
+        <element attributes="ignore_filter_on_new=true" default="javascript:global.getNextObjNumberPadded();" label="Number" max_length="40" name="number" read_only="true" read_only_option="display_read_only" type="string"/>
         <index name="index">
             <element name="document_id"/>
         </index>
@@ -32,6 +33,9 @@
             <element name="parent"/>
         </index>
         <index name="index3">
+            <element name="sys_domain"/>
+        </index>
+        <index name="index4">
             <element name="template"/>
         </index>
     </element>

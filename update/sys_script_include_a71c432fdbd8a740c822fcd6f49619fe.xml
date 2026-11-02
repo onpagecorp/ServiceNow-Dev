@@ -53,14 +53,14 @@ log.prototype = {
         <sys_created_on>2018-09-08 16:51:22</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>a71c432fdbd8a740c822fcd6f49619fe</sys_id>
-        <sys_mod_count>6</sys_mod_count>
+        <sys_mod_count>7</sys_mod_count>
         <sys_name>log</sys_name>
         <sys_package display_value="OnPage Integration" source="x_onpr_onpage">864f25ecdb8ca300ee685e25ca96192d</sys_package>
-        <sys_policy>read</sys_policy>
+        <sys_policy>protected</sys_policy>
         <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="OnPage Integration">864f25ecdb8ca300ee685e25ca96192d</sys_scope>
         <sys_update_name>sys_script_include_a71c432fdbd8a740c822fcd6f49619fe</sys_update_name>
         <sys_updated_by>hamid.laghari</sys_updated_by>
-        <sys_updated_on>2026-09-21 20:19:13</sys_updated_on>
+        <sys_updated_on>2026-11-02 01:36:43</sys_updated_on>
     </sys_script_include>
 </record_update>

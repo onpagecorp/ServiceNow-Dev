@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update>
+    <sys_script_fix action="DELETE">
+<before>false</before>
+<description/>
+<name>Set Target Display Names</name>
+<record_for_rollback>false</record_for_rollback>
+<script><![CDATA[setNames();
+
+function setNames() {
+    var target = new GlideRecord('x_onpr_onpage_target');
+    target.addNullQuery('display_name');
+    target.query();
+    while (target.next()) {
+        setDN(target);
+    }
+}
+
+function setDN(current) {
+    var displayName = '';
+    var docName = current.getDisplayValue('document_id'),
+        opid = current.getValue('opid'),
+        groupName = current.getValue('onpage_name'),
+        firstName = current.getValue('first_name'),
+        lastName = current.getValue('last_name');
+	if (docName != '') {
+        if (docName.contains("User: ")) {
+            displayName = docName.replace('User: ', '');
+        } else {
+            displayName = docName.replace('Group: ', '');
+        }
+    } else if (firstName != null) {
+        displayName = firstName + " " + lastName;
+    } else if (groupName != null) {
+        displayName = groupName;
+    }
+    if (opid != null) {
+        displayName += " (" + opid + ")";
+    }
+    if (displayName == '') {
+        displayName = current.getValue('id');
+    }
+    current.setValue('display_name', displayName);
+	current.update();
+}]]></script>
+<sys_class_name>sys_script_fix</sys_class_name>
+<sys_created_by>will.young</sys_created_by>
+<sys_created_on>2021-04-02 03:12:48</sys_created_on>
+<sys_id>bb0c2985db5fe050868262405b96196f</sys_id>
+<sys_mod_count>7</sys_mod_count>
+<sys_name>Set Target Display Names</sys_name>
+<sys_package display_value="OnPage Integration" source="x_onpr_onpage">864f25ecdb8ca300ee685e25ca96192d</sys_package>
+<sys_policy/>
+<sys_scope display_value="OnPage Integration">864f25ecdb8ca300ee685e25ca96192d</sys_scope>
+<sys_update_name>sys_script_fix_bb0c2985db5fe050868262405b96196f</sys_update_name>
+<sys_updated_by>will.young</sys_updated_by>
+<sys_updated_on>2021-04-02 03:20:52</sys_updated_on>
+<unloadable>false</unloadable>
+</sys_script_fix>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="OnPage Integration">864f25ecdb8ca300ee685e25ca96192d</application>
+        <file_path/>
+        <instance_id>5e3914cfdbc2c380563b7236bf96199a</instance_id>
+        <instance_name>ven02252</instance_name>
+        <name>sys_script_fix_bb0c2985db5fe050868262405b96196f</name>
+        <payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update&gt;&lt;sys_script_fix action="INSERT_OR_UPDATE"&gt;
+&lt;before&gt;false&lt;/before&gt;
+&lt;description/&gt;
+&lt;name&gt;Set Target Display Names&lt;/name&gt;
+&lt;record_for_rollback&gt;false&lt;/record_for_rollback&gt;
+&lt;script&gt;&lt;![CDATA[setNames();
+
+function setNames() {
+    var target = new GlideRecord('x_onpr_onpage_target');
+    target.addNullQuery('display_name');
+    target.query();
+    while (target.next()) {
+        setDN(target);
+    }
+}
+
+function setDN(current) {
+    var displayName = '';
+    var docName = current.getDisplayValue('document_id'),
+        opid = current.getValue('opid'),
+        groupName = current.getValue('onpage_name'),
+        firstName = current.getValue('first_name'),
+        lastName = current.getValue('last_name');
+	if (docName != '') {
+        if (docName.contains("User: ")) {
+            displayName = docName.replace('User: ', '');
+        } else {
+            displayName = docName.replace('Group: ', '');
+        }
+    } else if (firstName != null) {
+        displayName = firstName + " " + lastName;
+    } else if (groupName != null) {
+        displayName = groupName;
+    }
+    if (opid != null) {
+        displayName += " (" + opid + ")";
+    }
+    if (displayName == '') {
+        displayName = current.getValue('id');
+    }
+    current.setValue('display_name', displayName);
+	current.update();
+}]]&gt;&lt;/script&gt;
+&lt;sys_class_name&gt;sys_script_fix&lt;/sys_class_name&gt;
+&lt;sys_created_by&gt;will.young&lt;/sys_created_by&gt;
+&lt;sys_created_on&gt;2021-04-02 03:12:48&lt;/sys_created_on&gt;
+&lt;sys_id&gt;bb0c2985db5fe050868262405b96196f&lt;/sys_id&gt;
+&lt;sys_mod_count&gt;7&lt;/sys_mod_count&gt;
+&lt;sys_name&gt;Set Target Display Names&lt;/sys_name&gt;
+&lt;sys_package display_value="OnPage Integration" source="x_onpr_onpage"&gt;864f25ecdb8ca300ee685e25ca96192d&lt;/sys_package&gt;
+&lt;sys_policy/&gt;
+&lt;sys_scope display_value="OnPage Integration"&gt;864f25ecdb8ca300ee685e25ca96192d&lt;/sys_scope&gt;
+&lt;sys_update_name&gt;sys_script_fix_bb0c2985db5fe050868262405b96196f&lt;/sys_update_name&gt;
+&lt;sys_updated_by&gt;will.young&lt;/sys_updated_by&gt;
+&lt;sys_updated_on&gt;2021-04-02 03:20:52&lt;/sys_updated_on&gt;
+&lt;unloadable&gt;false&lt;/unloadable&gt;
+&lt;/sys_script_fix&gt;&lt;/record_update&gt;</payload>
+        <payload_hash>842883448</payload_hash>
+        <record_name>Set Target Display Names</record_name>
+        <reverted_from/>
+        <source>b422938d1bbb03107f50cb35604bcb0c</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>hamid.laghari</sys_created_by>
+        <sys_created_on>2026-10-06 15:43:15</sys_created_on>
+        <sys_id>7b904fc11b7b03107f50cb35604bcb6d</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_recorded_at>1a111e2234d0000001</sys_recorded_at>
+        <sys_updated_by>hamid.laghari</sys_updated_by>
+        <sys_updated_on>2026-10-06 17:02:57</sys_updated_on>
+        <type>Fix Script</type>
+        <update_guid>3b904fc1bb7b0310694382865d7c526c</update_guid>
+        <update_guid_history>3b904fc1bb7b0310694382865d7c526c:842883448,ce89152760a3cb10bc36d9c36af64433:1758807549,00c0ca54cae7c3108b516bf31b3c57b9:1555086288,4f5e7190d6e7c3108c0a7ea4d4f25016:1749818982,d126f914b9a7c310d1645e7872aee625:1857555393,bab3fd1025a7c3101d0df838cb2647b2:-1758864141,a82b25d07c67c31017d2f9e8f9cc751f:1857555393,0f9901d80363c310deb2278126d4b13c:-1523050952,8bd684192d6e03108f52ca8d89b8e8e6:-309040164</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>will.young</sys_created_by>
+        <sys_created_on>2026-10-06 15:44:58</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_db_object display_value="" name="sys_script_fix">sys_script_fix</sys_db_object>
+        <sys_id>1646f8e4b13941f083c84ebb1c38e244</sys_id>
+        <sys_metadata>bb0c2985db5fe050868262405b96196f</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Set Target Display Names</sys_name>
+        <sys_package display_value="OnPage Integration" source="x_onpr_onpage">864f25ecdb8ca300ee685e25ca96192d</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="OnPage Integration">864f25ecdb8ca300ee685e25ca96192d</sys_scope>
+        <sys_scope_delete display_value="">33d60e4152d64f7c9bf7959ea18f9e84</sys_scope_delete>
+        <sys_update_name>sys_script_fix_bb0c2985db5fe050868262405b96196f</sys_update_name>
+        <sys_update_version display_value="sys_script_fix_bb0c2985db5fe050868262405b96196f">7b904fc11b7b03107f50cb35604bcb6d</sys_update_version>
+        <sys_updated_by>will.young</sys_updated_by>
+        <sys_updated_on>2026-10-06 15:44:58</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

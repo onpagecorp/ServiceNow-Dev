@@ -17,12 +17,14 @@
         <menu/>
         <name>OnPage Integration</name>
         <package_json/>
+        <package_resolver_version/>
         <private>false</private>
         <restrict_table_access>false</restrict_table_access>
         <runtime_access_tracking>permissive</runtime_access_tracking>
         <scope>x_onpr_onpage</scope>
         <scoped_administration>false</scoped_administration>
         <short_description>Integrate OnPage with your ServiceNow instance</short_description>
+        <sn_managed>false</sn_managed>
         <source>x_onpr_onpage</source>
         <store_correlation_id/>
         <store_url/>
@@ -32,16 +34,16 @@
         <sys_created_by>will.young</sys_created_by>
         <sys_created_on>2018-08-17 15:59:19</sys_created_on>
         <sys_id>864f25ecdb8ca300ee685e25ca96192d</sys_id>
-        <sys_mod_count>73</sys_mod_count>
-        <sys_updated_by>matias.heffel</sys_updated_by>
-        <sys_updated_on>2026-08-04 21:11:11</sys_updated_on>
+        <sys_mod_count>74</sys_mod_count>
+        <sys_updated_by>hamid.laghari</sys_updated_by>
+        <sys_updated_on>2026-11-02 01:38:01</sys_updated_on>
         <template/>
         <trackable>true</trackable>
         <uninstall_blocked>false</uninstall_blocked>
         <user_role/>
         <vendor>OnPage Corporation</vendor>
         <vendor_prefix/>
-        <version>1.6.3</version>
+        <version>1.6.4</version>
     </sys_app>
     <sys_attachment action="INSERT_OR_UPDATE">
         <average_image_color>#0</average_image_color>

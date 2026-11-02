@@ -37,11 +37,13 @@ response.sendRedirect('/system_properties_ui.do?sysparm_category=OnPage%20Config
         <sys_class_name>sys_ui_page</sys_class_name>
         <sys_created_by>lorena.villanueva</sys_created_by>
         <sys_created_on>2018-09-11 17:52:27</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
         <sys_id>67d8f620db682740ee685e25ca9619fc</sys_id>
         <sys_mod_count>36</sys_mod_count>
         <sys_name>OnPageLogin</sys_name>
         <sys_package display_value="OnPage Integration" source="x_onpr_onpage">864f25ecdb8ca300ee685e25ca96192d</sys_package>
         <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="OnPage Integration">864f25ecdb8ca300ee685e25ca96192d</sys_scope>
         <sys_update_name>sys_ui_page_67d8f620db682740ee685e25ca9619fc</sys_update_name>
         <sys_updated_by>will.young</sys_updated_by>

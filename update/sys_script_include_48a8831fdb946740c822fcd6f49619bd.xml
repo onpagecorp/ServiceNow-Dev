@@ -73,12 +73,13 @@ workflow.prototype = {
         if (grEvent.get(event)) {
             var table = grEvent.getValue('table'),
                 docID = grEvent.getValue('document_id'),
-				sendCondition = 'send_whenINboth,' + grEvent.getValue('record_operation');
-								
+                sendCondition = 'both,' + grEvent.getValue('record_operation');
+
             var sub = new GlideRecordSecure('x_onpr_onpage_onpage_subscription');
-			sub.addActiveQuery();
+            sub.addActiveQuery();
             sub.addQuery('table', table);
-			sub.addEncodedQuery(sendCondition);
+			sub.addQuery('send_when','IN',sendCondition);
+            // sub.addEncodedQuery(sendCondition);
             sub.query();
             while (sub.next()) {
                 this.info("Checking subscription " + sub.getValue('name'), logType, logTable, event);
@@ -86,21 +87,21 @@ workflow.prototype = {
                     conditions = sub.getValue('conditions_builder'),
                     recips = [];
                 if (sub.getValue('type') == 'subscription') {
-					this.info("Type is subscription", logType, logTable, event);
+                    this.info("Type is subscription", logType, logTable, event);
                     var subRecip = sub.getValue('recipients');
                     if (subRecip != '' && subRecip != null) {
                         recips = subRecip.split(",");
                     }
-                } else if (sub.getValue('type') == 'direct_reference'){
-					this.info("Type is direct reference", logType, logTable, event);
-					recips = this.getDirectRecipients(table, docID, event);
-				}
-				this.info("Recipients are " + recips, logType, logTable, event);
+                } else if (sub.getValue('type') == 'direct_reference') {
+                    this.info("Type is direct reference", logType, logTable, event);
+                    recips = this.getDirectRecipients(table, docID, event);
+                }
+                this.info("Recipients are " + recips, logType, logTable, event);
 
                 //check each subscription to see if the criteria match
                 var rec = new GlideRecordSecure(table);
                 rec.addQuery('sys_id', docID);
-                rec.addEncodedQuery(conditions);
+                rec.addEncodedQuery(conditions,true);
                 rec.query();
 
                 if (rec.next()) {
@@ -133,9 +134,9 @@ workflow.prototype = {
                             grEvent.update();
                             continue;
                         }
-						recips = new global.ArrayUtil().unique(recips);
+                        recips = new global.ArrayUtil().unique(recips);
                         //get opid for each recipient
-						this.info("Recips length " + recips.length, logType, logTable, event);
+                        this.info("Recips length " + recips.length, logType, logTable, event);
                         var recipients = [];
                         for (var j = 0; j < recips.length; j++) {
                             var id = recips[j];
@@ -252,28 +253,28 @@ workflow.prototype = {
             return newString;
         }
     },
-	
-	getDirectRecipients: function(table, docId, event){
-		var logTable = 'x_onpr_onpage_event',
+
+    getDirectRecipients: function(table, docId, event) {
+        var logTable = 'x_onpr_onpage_event',
             logType = 'internal';
-		this.info("getDirectRecipients for table: " + table + " and doc " + docId, logType, logTable, event);
-		var recipients = '';
-		var gr = new GlideRecordSecure(table);
-		if(gr.get(docId)){
-			recipients = gr.getValue('x_onpr_onpage_onpage_recipients');
-		} else {
-			this.info("getDirectRecipients no glide record found for : " + table + " and doc " + docId, logType, logTable, event);
-		}
-		if(recipients == null || recipients == '')
-			return [];
-		this.info("DirectRecipients are: " + recipients.toString(), logType, logTable, event);
-		if(recipients.contains(',')){
-			return recipients.split(',');
-		} else if (recipients != ''){
-			return [recipients];
-		}
-	},
-	
+        this.info("getDirectRecipients for table: " + table + " and doc " + docId, logType, logTable, event);
+        var recipients = '';
+        var gr = new GlideRecordSecure(table);
+        if (gr.get(docId)) {
+            recipients = gr.getValue('x_onpr_onpage_onpage_recipients');
+        } else {
+            this.info("getDirectRecipients no glide record found for : " + table + " and doc " + docId, logType, logTable, event);
+        }
+        if (recipients == null || recipients == '')
+            return [];
+        this.info("DirectRecipients are: " + recipients.toString(), logType, logTable, event);
+        if (recipients.contains(',')) {
+            return recipients.split(',');
+        } else if (recipients != '') {
+            return [recipients];
+        }
+    },
+
     notification: function(template, recip, table, doc) {
         //creates notifications from workflow scripts
         var logTable = table,
@@ -441,13 +442,72 @@ workflow.prototype = {
 
     },
 
+    // sendRestMessage: function(id, subject, body, recipients, priority, reply, notif) {
+    //     var logTable = 'x_onpr_onpage_notification',
+    //         logType = 'outbound';
+    //     if (gs.getProperty('x_onpr_onpage.send.enabled') == "false") {
+    //         this.error("Message sending is disabled. Unable to send REST message.", logType, logTable, id);
+    //         return "error;" + "Message sending is disabled.";
+    //     }
+    //     try {
+    //         var inputs = {};
+    //         inputs['id'] = id; // String 
+    //         inputs['subject'] = subject; // String 
+    //         inputs['body'] = body; // String 
+    //         inputs['recipients'] = this.reformat(recipients); // String 
+    //         inputs['priority'] = priority; // String 
+    //         inputs['reply'] = this.reformat(reply); // String 
+    //         inputs['notif'] = notif; // String 
+    //         var result = sn_fd.FlowAPI.getRunner().action('x_onpr_onpage.workflow_send_notification_execute').inForeground().withInputs(inputs).run();            
+    //         var outputs = result.getOutputs();
+    //         var resultAcc = outputs['result']; // String
+    // 		return resultAcc;
+    //     } catch (ex) {
+    //         return "error;" + ex.getMessage();
+    //     }
+    //     // try {
+    //     //     var r = new sn_ws.RESTMessageV2('OnPage Secured', 'sendMessage');
+    //     //     r.setStringParameterNoEscape('URLsub', gs.getProperty('x_onpr_onpage.URLsubdomain'));
+    //     //     r.setStringParameterNoEscape('token', gs.getProperty('x_onpr_onpage.auth.token'));
+    //     //     r.setStringParameterNoEscape('key', gs.getProperty('x_onpr_onpage.auth.key'));
+    //     //     r.setStringParameterNoEscape('ansArray', this.reformat(reply));
+    //     //     r.setStringParameterNoEscape('priority', priority);
+    //     //     r.setStringParameterNoEscape('subject', encodeURI(subject));
+    //     //     r.setStringParameterNoEscape('recipArray', this.reformat(recipients));
+    //     //     r.setStringParameterNoEscape('id', notif);
+    //     //     r.setStringParameterNoEscape('body', encodeURI(body));
+
+    //     //     var response = r.execute();
+    //     //     var responseBody = response.getBody();
+    //     //     var httpStatus = response.getStatusCode();
+    //     //     this.info("workflow.sendRestMessage response: " + httpStatus + ": " + responseBody, logType, logTable, notif);
+    //     //     if (httpStatus != 200) {
+    //     //         var request = r.getRequestBody();
+    //     //         var errorhandler = new handleErrors().rest(request, responseBody, httpStatus);
+    //     //         return "error;" + httpStatus;
+    //     //     } else {
+    //     //         var json = JSON.parse(responseBody);
+    //     //         if (json[0].accepted == true) {
+    //     //             return "sent;" + json[0].id;
+    //     //         } else {
+    //     //             return "error;" + json[0].errorDescription;
+    //     //         }
+    //     //     }
+    //     // } catch (ex) {
+    //     //     var message = ex.getMessage();
+    //     //     return "error;" + message;
+    //     // }
+
+    // },
     sendRestMessage: function(id, subject, body, recipients, priority, reply, notif) {
         var logTable = 'x_onpr_onpage_notification',
             logType = 'outbound';
+
         if (gs.getProperty('x_onpr_onpage.send.enabled') == "false") {
             this.error("Message sending is disabled. Unable to send REST message.", logType, logTable, id);
-            return "error;" + "Message sending is disabled.";
+            return "error;Message sending is disabled.";
         }
+
         try {
             var r = new sn_ws.RESTMessageV2('OnPage Secured', 'sendMessage');
             r.setStringParameterNoEscape('URLsub', gs.getProperty('x_onpr_onpage.URLsubdomain'));
@@ -460,46 +520,28 @@ workflow.prototype = {
             r.setStringParameterNoEscape('id', notif);
             r.setStringParameterNoEscape('body', encodeURI(body));
 
-            var response = r.executeAsync();
-			response.waitForResponse(60);
-            var responseBody = response.getBody();
-            var httpStatus = response.getStatusCode();
-			gs.info("workflow.sendRestMessage response: " + httpStatus + ": " + responseBody+ logType+ logTable+ notif);
-			gs.info('AK URLsub'+ gs.getProperty('x_onpr_onpage.URLsubdomain'));
-            gs.info('AK token'+ gs.getProperty('x_onpr_onpage.auth.token'));
-            gs.info('AK key'+ gs.getProperty('x_onpr_onpage.auth.key'));
-            gs.info('AK ansArray'+ this.reformat(reply));
-            gs.info('AK priority'+ priority);
-            gs.info('AK subject'+ encodeURI(subject));
-            gs.info('AK recipArray'+ this.reformat(recipients));
-            gs.info('AK id'+ notif);
-            gs.info('AK body'+ encodeURI(body));
-            this.info("workflow.sendRestMessage response: " + httpStatus + ": " + responseBody, logType, logTable, notif);
+            var topic = 'ONPAGE_SEND_MESSAGE_' + String(notif) + '_' + gs.generateGUID();
+            r.setEccTopic(topic);
+            r.executeAsync();
 
-            if (httpStatus != 200) {
-                var request = r.getRequestBody();
-                var errorhandler = new handleErrors().rest(request, responseBody, httpStatus);
-                return "error;" + httpStatus;
-            } else {
-                var json = JSON.parse(responseBody);
-                if (json[0].accepted == true) {
-                    return "sent;" + json[0].id;
-                } else {
-                    return "error;" + json[0].errorDescription;
-                }
-            }
+            this.info('OnPage single notification queued. Topic: ' + topic, logType, logTable, notif);
+            return 'sending;' + topic;
+
         } catch (ex) {
-            var message = ex.getMessage();
-            return "error;" + message;
+            var message = ex.message || String(ex);
+            this.error('Send message error: ' + message, logType, logTable, id);
+            return 'error;' + message;
         }
     },
     sendRestMessages: function(msgArray, id) {
         var logTable = 'sysauto_script',
             logType = 'outbound';
+
         if (gs.getProperty('x_onpr_onpage.send.enabled') == "false") {
             this.error("Message sending is disabled. Unable to send REST message.", logType, logTable, id);
-            return "error;" + "Message sending is disabled.";
+            return "error;Message sending is disabled.";
         }
+
         try {
             var r = new sn_ws.RESTMessageV2('OnPage Secured', 'sendMessages');
             r.setStringParameterNoEscape('URLsub', gs.getProperty('x_onpr_onpage.URLsubdomain'));
@@ -507,23 +549,49 @@ workflow.prototype = {
             r.setStringParameterNoEscape('key', gs.getProperty('x_onpr_onpage.auth.key'));
             r.setStringParameterNoEscape('msgArray', msgArray);
 
-            var response = r.executeAsync();
-			response.waitForResponse(60);
-            var responseBody = response.getBody();
-            var httpStatus = response.getStatusCode();
-            this.info("Response: " + httpStatus + ": " + responseBody, logType, logTable, '');
-            if (httpStatus != 200) {
-                var request = r.getRequestBody();
-                var errorhandler = new handleErrors().rest(request, responseBody, httpStatus);
-                return "error;" + responseBody;
-            } else {
-                return "sent;" + responseBody;
-            }
+            var topic = 'ONPAGE_SEND_MESSAGES_' + String(id) + '_' + gs.generateGUID();
+            r.setEccTopic(topic);
+            r.executeAsync();
+
+            this.info('OnPage bulk notification queued. Topic: ' + topic, logType, logTable, id);
+            return 'sending;' + topic;
+
         } catch (ex) {
-            var message = ex.getMessage();
-            this.error("Send messages error: " + message, logType, logTable, event);
+            var message = ex.message || String(ex);
+            this.error('Send messages error: ' + message, logType, logTable, id);
+            return 'error;' + message;
         }
     },
+    // sendRestMessages: function(msgArray, id) {
+    //     var logTable = 'sysauto_script',
+    //         logType = 'outbound';
+    //     if (gs.getProperty('x_onpr_onpage.send.enabled') == "false") {
+    //         this.error("Message sending is disabled. Unable to send REST message.", logType, logTable, id);
+    //         return "error;" + "Message sending is disabled.";
+    //     }
+    //     try {
+    //         var r = new sn_ws.RESTMessageV2('OnPage Secured', 'sendMessages');
+    //         r.setStringParameterNoEscape('URLsub', gs.getProperty('x_onpr_onpage.URLsubdomain'));
+    //         r.setStringParameterNoEscape('token', gs.getProperty('x_onpr_onpage.auth.token'));
+    //         r.setStringParameterNoEscape('key', gs.getProperty('x_onpr_onpage.auth.key'));
+    //         r.setStringParameterNoEscape('msgArray', msgArray);
+
+    //         // var response = r.execute();
+    //         var responseBody = response.getBody();
+    //         var httpStatus = response.getStatusCode();
+    //         this.info("Response: " + httpStatus + ": " + responseBody, logType, logTable, '');
+    //         if (httpStatus != 200) {
+    //             var request = r.getRequestBody();
+    //             var errorhandler = new handleErrors().rest(request, responseBody, httpStatus);
+    //             return "error;" + responseBody;
+    //         } else {
+    //             return "sent;" + responseBody;
+    //         }
+    //     } catch (ex) {
+    //         var message = ex.getMessage();
+    //         this.error("Send messages error: " + message, logType, logTable, event);
+    //     }
+    // },
     reformat: function(array) {
         var string,
             quotes = [];
@@ -559,7 +627,7 @@ workflow.prototype = {
         <sys_created_on>2018-09-07 21:57:11</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>48a8831fdb946740c822fcd6f49619bd</sys_id>
-        <sys_mod_count>138</sys_mod_count>
+        <sys_mod_count>137</sys_mod_count>
         <sys_name>workflow</sys_name>
         <sys_package display_value="OnPage Integration" source="x_onpr_onpage">864f25ecdb8ca300ee685e25ca96192d</sys_package>
         <sys_policy>protected</sys_policy>
@@ -567,6 +635,6 @@ workflow.prototype = {
         <sys_scope display_value="OnPage Integration">864f25ecdb8ca300ee685e25ca96192d</sys_scope>
         <sys_update_name>sys_script_include_48a8831fdb946740c822fcd6f49619bd</sys_update_name>
         <sys_updated_by>hamid.laghari</sys_updated_by>
-        <sys_updated_on>2026-10-01 19:20:02</sys_updated_on>
+        <sys_updated_on>2026-11-02 01:29:58</sys_updated_on>
     </sys_script_include>
 </record_update>

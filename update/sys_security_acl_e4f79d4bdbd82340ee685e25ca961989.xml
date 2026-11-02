@@ -19,11 +19,13 @@
         <sys_class_name>sys_security_acl</sys_class_name>
         <sys_created_by>will.young</sys_created_by>
         <sys_created_on>2018-09-06 18:57:52</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
         <sys_id>e4f79d4bdbd82340ee685e25ca961989</sys_id>
         <sys_mod_count>3</sys_mod_count>
         <sys_name>x_onpr_onpage_onpage_template</sys_name>
         <sys_package display_value="OnPage Integration" source="x_onpr_onpage">864f25ecdb8ca300ee685e25ca96192d</sys_package>
         <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="OnPage Integration">864f25ecdb8ca300ee685e25ca96192d</sys_scope>
         <sys_update_name>sys_security_acl_e4f79d4bdbd82340ee685e25ca961989</sys_update_name>
         <sys_updated_by>will.young</sys_updated_by>

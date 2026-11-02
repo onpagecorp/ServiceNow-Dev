@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_script">
+    <sys_script action="INSERT_OR_UPDATE">
+        <abort_action>false</abort_action>
+        <access>package_private</access>
+        <action_delete>false</action_delete>
+        <action_insert>true</action_insert>
+        <action_query>false</action_query>
+        <action_update>false</action_update>
+        <active>true</active>
+        <add_message>false</add_message>
+        <advanced>true</advanced>
+        <change_fields>false</change_fields>
+        <client_callable>false</client_callable>
+        <collection>ecc_queue</collection>
+        <condition/>
+        <description/>
+        <execute_function>false</execute_function>
+        <filter_condition/>
+        <is_rest>false</is_rest>
+        <message/>
+        <name>OnPage Async REST Response Handler</name>
+        <order>100</order>
+        <priority>100</priority>
+        <rest_method/>
+        <rest_method_text/>
+        <rest_service/>
+        <rest_service_text/>
+        <rest_variables/>
+        <role_conditions/>
+        <script><![CDATA[(function executeRule(current, previous) {
+
+    if (current.getValue('queue') != 'input') {
+        return;
+    }
+
+    var topic = current.getValue('topic') || '';
+
+    if (
+        topic != 'ONPAGE_TARGET_GROUPS' &&
+        topic != 'ONPAGE_GROUPS' &&
+        topic != 'ONPAGE_ACCOUNTS' &&
+        topic != 'ONPAGE_CREATE_ACCOUNT' &&
+        topic != 'ONPAGE_REGISTER'
+    ) {
+        return;
+    }
+
+    try {
+
+        var onpage = new x_onpr_onpage.sync();
+
+        var payload = current.getValue('payload');
+        if (!payload) {
+            throw new Error('ECC response payload is empty.');
+        }
+
+        var xml = new XMLDocument2();
+        xml.parseXML(payload);
+
+        var statusNode = xml.getNode('//parameters/parameter[@name="http_status_code"]');
+        var status = statusNode ? statusNode.getAttribute('value') : '';
+
+        var outputNode = xml.getNode('//result/output');
+        var body = outputNode ? outputNode.getTextContent() : '';
+
+        if (!status) {
+            throw new Error('HTTP status code not found in ECC response.');
+        }
+
+        if (topic == 'ONPAGE_REGISTER') {
+            var registerRoot = xml.getDocumentElement();
+            var registerError = registerRoot ? registerRoot.getAttribute('error') : '';
+            var setupObj = new x_onpr_onpage.setup();
+            var registrationSuccess = setupObj.processRegistrationResponse(status, body, registerError);
+            if (registrationSuccess) {
+                gs.info('OnPage registration response processed successfully.');
+            } else {
+                gs.error('OnPage registration response processing failed.');
+            }
+            return;
+        }
+
+        if (status != '200') {
+            var rootNode = xml.getDocumentElement();
+            var errorMessage = rootNode ? rootNode.getAttribute('error') : '';
+            onpage._handleErrors('', status, body || errorMessage);
+            if (topic == 'ONPAGE_TARGET_GROUPS') {
+                onpage.syncUsers();
+            }
+            return;
+        }
+
+        if (!body) {
+            throw new Error('HTTP 200 response has an empty body.');
+        }
+
+        if (topic == 'ONPAGE_TARGET_GROUPS' || topic == 'ONPAGE_GROUPS') {
+            onpage.processGroupsResponse(body);
+            if (topic == 'ONPAGE_TARGET_GROUPS') {
+                onpage.syncUsers();
+            }
+            return;
+        }
+
+        if (topic == 'ONPAGE_ACCOUNTS') {
+            onpage.processAccountsResponse(body);
+            return;
+        }
+
+        if (topic == 'ONPAGE_CREATE_ACCOUNT') {
+            onpage.processCreateAccountResponse(body);
+            return;
+        }
+
+    } catch (ex) {
+        gs.error('OnPage ECC response processing failed. Topic: ' + topic + ' | Error: ' + ex.message);
+    }
+
+})(current, previous);]]></script>
+        <sys_class_name>sys_script</sys_class_name>
+        <sys_created_by>hamid.laghari</sys_created_by>
+        <sys_created_on>2026-10-23 12:49:49</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>7e7b752e47449f10cfdde3cc236d43c7</sys_id>
+        <sys_mod_count>16</sys_mod_count>
+        <sys_name>OnPage Async REST Response Handler</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="OnPage Integration" source="x_onpr_onpage">864f25ecdb8ca300ee685e25ca96192d</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="OnPage Integration">864f25ecdb8ca300ee685e25ca96192d</sys_scope>
+        <sys_update_name>sys_script_7e7b752e47449f10cfdde3cc236d43c7</sys_update_name>
+        <sys_updated_by>hamid.laghari</sys_updated_by>
+        <sys_updated_on>2026-11-01 03:24:18</sys_updated_on>
+        <template/>
+        <when>async_always</when>
+    </sys_script>
+    <sys_translated_text action="delete_multiple" query="documentkey=7e7b752e47449f10cfdde3cc236d43c7"/>
+    <sys_es_latest_script action="INSERT_OR_UPDATE">
+        <id>7e7b752e47449f10cfdde3cc236d43c7</id>
+        <sys_created_by>hamid.laghari</sys_created_by>
+        <sys_created_on>2026-10-23 12:49:48</sys_created_on>
+        <sys_id>f0fb356e47449f10cfdde3cc236d4321</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>hamid.laghari</sys_updated_by>
+        <sys_updated_on>2026-10-23 12:49:48</sys_updated_on>
+        <table>sys_script</table>
+        <use_es_latest>true</use_es_latest>
+    </sys_es_latest_script>
+</record_update>

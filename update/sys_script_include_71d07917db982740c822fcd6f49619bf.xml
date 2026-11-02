@@ -38,71 +38,232 @@ setup.prototype = {
     },*/
 
     // 2/3/2021 - setting password as sys_id of onpage user
+    // register: function(email, pw) {
+    //     //register the instance with OnPage and get token/key
+    //     this.info("Starting registration process");
+    //     var instance = gs.getProperty('instance_name'),
+    //         username = "onpage",
+    //         password = pw;
+    //     //var snPassword = this.getOnpageSysID();
+    //     var snPassword = this._createUser();
+    //     var snPasswordString = snPassword.toString();
+
+    //     var passwordString = password.toString();
+    //     var rest = new sn_ws.RESTMessageV2("Register with OnPage", "Register");
+    //     rest.setStringParameterNoEscape('URLsub', this.URLsub);
+    //     rest.setStringParameterNoEscape('dispEmail', email);
+    //     rest.setStringParameterNoEscape('dispPass', pw);
+    //     rest.setStringParameterNoEscape('instance', instance);
+    //     rest.setStringParameterNoEscape('username', username);
+    //     rest.setStringParameterNoEscape('password', snPasswordString);
+    //     var response = rest.execute();
+    // 	// response.waitForResponse(60);
+    //     var status = response.getStatusCode();
+    //     var body = response.getBody();
+    //     this.info("Registration response: " + status + ": " + body);
+    //     if (status != 200) {
+    //         this.error("Automatic registration process failed.");
+    //         var request = rest.getRequestBody(),
+    //             table = '',
+    //             id = '';
+    //         this._handleErrors(request, status, body);
+    //     } else {
+    //         //parse for key values and update sys properties
+    //         var json = JSON.parse(body);
+    //         var token = json.credentials.token;
+    //         var key = json.credentials.secretKey;
+    //         this.info("New Token: " + token);
+    //         this.info("New Key: " + key);
+    //         try {
+    //             var inputs = {};
+    //             inputs['system_property'] = 'x_onpr_onpage.auth.token'; // String 
+    //             inputs['new_value'] = token; // String 
+    //             var result = sn_fd.FlowAPI.getRunner().subflow('x_onpr_onpage.update_system_property').inForeground().withInputs(inputs).run();
+    //             var outputs = result.getOutputs();
+    //         } catch (ex) {
+    //             var message = ex.getMessage();
+    //             gs.error(message);
+    //         }
+    //         try {
+    //             var inputs = {};
+    //             inputs['system_property'] = 'x_onpr_onpage.auth.key'; // String 
+    //             inputs['new_value'] = key; // String 
+    //             var result = sn_fd.FlowAPI.getRunner().subflow('x_onpr_onpage.update_system_property').inForeground().withInputs(inputs).run();
+    //             var outputs = result.getOutputs();
+    //         } catch (ex) {
+    //             var message = ex.getMessage();
+    //             gs.error(message);
+    //         }
+    //     }
+
+
+    //     //Sync all targets(users/groups) after setup done
+    //     var syncTargets = new x_onpr_onpage.sync();
+    //     syncTargets.targetSync();
+
+    //     this.info("Registration process completed.");
+    // },
+
     register: function(email, pw) {
-        //register the instance with OnPage and get token/key
+
+        // Existing registration process.
         this.info("Starting registration process");
+
         var instance = gs.getProperty('instance_name'),
-            username = "onpage",
-            password = pw;
-        //var snPassword = this.getOnpageSysID();
+            username = "onpage";
+
+        // Existing OnPage integration user creation.
         var snPassword = this._createUser();
+
+        // NEW: Stop if integration user setup failed.
+        if (!snPassword) {
+            this.error("OnPage integration user setup failed.");
+            return;
+        }
+
         var snPasswordString = snPassword.toString();
 
-        var passwordString = password.toString();
-        var rest = new sn_ws.RESTMessageV2("Register with OnPage", "Register");
+        var rest = new sn_ws.RESTMessageV2(
+            "Register with OnPage",
+            "Register"
+        );
+
+        // Existing request parameters - unchanged.
         rest.setStringParameterNoEscape('URLsub', this.URLsub);
         rest.setStringParameterNoEscape('dispEmail', email);
         rest.setStringParameterNoEscape('dispPass', pw);
         rest.setStringParameterNoEscape('instance', instance);
         rest.setStringParameterNoEscape('username', username);
         rest.setStringParameterNoEscape('password', snPasswordString);
-        var response = rest.executeAsync();
-		response.waitForResponse(60);
-        var status = response.getStatusCode();
-        var body = response.getBody();
-        this.info("Registration response: " + status + ": " + body);
-        if (status != 200) {
-            this.error("Automatic registration process failed.");
-            var request = rest.getRequestBody(),
-                table = '',
-                id = '';
-            this._handleErrors(request, status, body);
-        } else {
-            //parse for key values and update sys properties
-            var json = JSON.parse(body);
-            var token = json.credentials.token;
-            var key = json.credentials.secretKey;
-            this.info("New Token: " + token);
-            this.info("New Key: " + key);
-            try {
-                var inputs = {};
-                inputs['system_property'] = 'x_onpr_onpage.auth.token'; // String 
-                inputs['new_value'] = token; // String 
-                var result = sn_fd.FlowAPI.getRunner().subflow('x_onpr_onpage.update_system_property').inForeground().withInputs(inputs).run();
-                var outputs = result.getOutputs();
-            } catch (ex) {
-                var message = ex.getMessage();
-                gs.error(message);
-            }
-            try {
-                var inputs = {};
-                inputs['system_property'] = 'x_onpr_onpage.auth.key'; // String 
-                inputs['new_value'] = key; // String 
-                var result = sn_fd.FlowAPI.getRunner().subflow('x_onpr_onpage.update_system_property').inForeground().withInputs(inputs).run();
-                var outputs = result.getOutputs();
-            } catch (ex) {
-                var message = ex.getMessage();
-                gs.error(message);
-            }
+
+        try {
+
+            // NEW: Identify the asynchronous response in ECC Queue.
+            rest.setEccTopic('ONPAGE_REGISTER');
+
+            // CHANGED: Replaced execute() with executeAsync().
+            // No waitForResponse(), getBody(), or getStatusCode().
+            rest.executeAsync();
+
+            this.info(
+                "OnPage registration request queued."
+            );
+
+            // CHANGED: Target synchronization now starts
+            // after the registration response is processed.
+
+        } catch (ex) {
+
+            this.error(
+                "OnPage registration request failed: " +
+                (ex.message || String(ex))
+            );
+        }
+    },
+
+    // NEW: Process the registration response received
+    // asynchronously through ECC Queue.
+    processRegistrationResponse: function(status, body, errorMessage) {
+
+        // Handle unsuccessful registration.
+        if (String(status) != '200') {
+
+            this.error(
+                "Automatic registration process failed. " +
+                "HTTP Status: " + status
+            );
+
+            this._handleErrors(
+                '',
+                status,
+                errorMessage || body
+            );
+
+            return false;
         }
 
+        try {
 
-        //Sync all targets(users/groups) after setup done
-        var syncTargets = new x_onpr_onpage.sync();
-        syncTargets.targetSync();
+            // Existing: Parse registration response.
+            var json = JSON.parse(body);
 
-        this.info("Registration process completed.");
+            if (
+                !json.credentials ||
+                !json.credentials.token ||
+                !json.credentials.secretKey
+            ) {
+                throw new Error(
+                    "Registration response does not contain " +
+                    "the required credentials."
+                );
+            }
+
+            var token = json.credentials.token;
+            var key = json.credentials.secretKey;
+
+            // CHANGED: Never log authentication credentials.
+            this.info(
+                "OnPage registration credentials received."
+            );
+
+            // Existing subflow: Update token property.
+            var tokenInputs = {};
+
+            tokenInputs['system_property'] =
+                'x_onpr_onpage.auth.token';
+
+            tokenInputs['new_value'] = token;
+
+            var tokenResult = sn_fd.FlowAPI.getRunner()
+                .subflow('x_onpr_onpage.update_system_property')
+                .inForeground()
+                .withInputs(tokenInputs)
+                .run();
+
+            // Existing subflow: Update key property.
+            var keyInputs = {};
+
+            keyInputs['system_property'] =
+                'x_onpr_onpage.auth.key';
+
+            keyInputs['new_value'] = key;
+
+            var keyResult = sn_fd.FlowAPI.getRunner()
+                .subflow('x_onpr_onpage.update_system_property')
+                .inForeground()
+                .withInputs(keyInputs)
+                .run();
+
+            this.info(
+                "OnPage credential update subflows completed."
+            );
+
+            // CHANGED: Target sync starts after the
+            // credential update subflows have executed.
+            var syncTargets = new x_onpr_onpage.sync();
+
+            syncTargets.targetSync();
+
+            this.info(
+                "OnPage registration response processed. " +
+                "Target synchronization initiated."
+            );
+
+            return true;
+
+        } catch (ex) {
+
+            // NEW: Do not start target synchronization
+            // when response processing throws an error.
+            this.error(
+                "OnPage registration processing failed: " +
+                (ex.message || String(ex))
+            );
+
+            return false;
+        }
     },
+
     setupIA: function() {
         var script = (function executeRule(current, previous /*null when async*/ ) {
             var updatedBy = current.getValue('sys_updated_by');
@@ -203,14 +364,14 @@ setup.prototype = {
         <sys_created_on>2018-09-07 15:49:22</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>71d07917db982740c822fcd6f49619bf</sys_id>
-        <sys_mod_count>47</sys_mod_count>
+        <sys_mod_count>50</sys_mod_count>
         <sys_name>setup</sys_name>
         <sys_package display_value="OnPage Integration" source="x_onpr_onpage">864f25ecdb8ca300ee685e25ca96192d</sys_package>
-        <sys_policy>read</sys_policy>
+        <sys_policy>protected</sys_policy>
         <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="OnPage Integration">864f25ecdb8ca300ee685e25ca96192d</sys_scope>
         <sys_update_name>sys_script_include_71d07917db982740c822fcd6f49619bf</sys_update_name>
         <sys_updated_by>hamid.laghari</sys_updated_by>
-        <sys_updated_on>2026-09-30 18:17:37</sys_updated_on>
+        <sys_updated_on>2026-11-02 01:36:43</sys_updated_on>
     </sys_script_include>
 </record_update>

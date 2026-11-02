@@ -2,6 +2,7 @@
     <sys_ui_related sys_domain="global" table="x_onpr_onpage_onpage_reply_options" version="2" view="">
         <sys_ui_related_list_entry action="INSERT_OR_UPDATE">
             <filter/>
+            <group_by_field/>
             <list_id display_value="OnPage Reply Options - Default view" name="x_onpr_onpage_onpage_reply_options" related_list="NULL" sys_domain="global" view="Default view">0b302edbdb506740c822fcd6f49619c7</list_id>
             <order_by/>
             <position>0</position>
@@ -16,6 +17,7 @@
         </sys_ui_related_list_entry>
         <sys_ui_related_list_entry action="INSERT_OR_UPDATE">
             <filter/>
+            <group_by_field/>
             <list_id display_value="OnPage Reply Options - Default view" name="x_onpr_onpage_onpage_reply_options" related_list="NULL" sys_domain="global" view="Default view">0b302edbdb506740c822fcd6f49619c7</list_id>
             <order_by/>
             <position>1</position>
@@ -38,6 +40,7 @@
             <sys_class_name>sys_ui_related_list</sys_class_name>
             <sys_created_by>will.young</sys_created_by>
             <sys_created_on>2018-09-07 18:52:11</sys_created_on>
+            <sys_customer_update>false</sys_customer_update>
             <sys_domain>global</sys_domain>
             <sys_domain_path>/</sys_domain_path>
             <sys_id>0b302edbdb506740c822fcd6f49619c7</sys_id>
@@ -45,6 +48,7 @@
             <sys_name>OnPage Reply Options - Default view</sys_name>
             <sys_package display_value="OnPage Integration" source="x_onpr_onpage">864f25ecdb8ca300ee685e25ca96192d</sys_package>
             <sys_policy/>
+            <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
             <sys_scope display_value="OnPage Integration">864f25ecdb8ca300ee685e25ca96192d</sys_scope>
             <sys_update_name>sys_ui_related_x_onpr_onpage_onpage_reply_options_null</sys_update_name>
             <sys_updated_by>will.young</sys_updated_by>

@@ -10,24 +10,82 @@
         <run_script>false</run_script>
         <script><![CDATA[(function transformRow(source, target, map, log, isUpdate) {
 
-	// Add your code here
+    // Add your code here
 
-})(source, target, map, log, action==="update");]]></script>
+    var eventStatus = source.value.toString();
+    var eventTimeStamp = source.timestamp.toString();
+    var eventReply = source.replyoption.toString();
+    var eventOPID = source.opid.toString();
+    //gs.info("Transform variables: "+eventStatus+" "+eventTimeStamp+" "+eventReply+" "+eventOPID);
+
+
+    var grActualNotification = new GlideRecord('x_onpr_onpage_notification');
+    if (grActualNotification.get(source.sn_id.toString())) {
+        var targetTable = grActualNotification.getValue('table');
+        var targetRec = grActualNotification.getValue('document_id');
+
+        //create notification for work notes
+        var grNotification = new GlideRecord('x_onpr_onpage_notification');
+        grNotification.initialize();
+        grNotification.setValue('status', 'received');
+        grNotification.setValue('parent', '');
+        grNotification.setValue('table', targetTable);
+        grNotification.setValue('document_id', targetRec);
+        grNotification.setValue('short_description', 'OnPage Response');
+        grNotification.setValue('priority', "LOW");
+
+        var userFullName = getUsername(eventOPID);
+        var message = "";
+        var verb = "";
+        switch (eventStatus) {
+            case 'Replied':
+                message = userFullName + " replied " + eventReply + " at " + eventTimeStamp;
+                break;
+            default:
+                message = userFullName + " | " + eventStatus + " at " + eventTimeStamp;
+                break;
+        }
+        grNotification.setValue('body', message);
+        // grNotification.insert();
+        target.status = 'processed';
+        source.status = 'processed';
+        source.table = targetTable;
+        source.document_id = targetRec;
+    } else {
+        target.status = 'ignored';
+        source.status = 'ignored';
+    }
+
+
+    function getUsername(eventOPID) {
+        var gr = new GlideRecord('x_onpr_onpage_target');
+        if (gr.get("opid", eventOPID)) {
+            var first = gr.getValue('first_name'),
+                last = gr.getValue('last_name');
+            if (first == null && last == null) {
+                first = "OPID";
+                last = eventOPID;
+            }
+            return first + " " + last;
+        }
+    }
+
+})(source, target, map, log, action === "update");]]></script>
         <source_table>x_onpr_onpage_event_import</source_table>
         <sys_class_name>sys_transform_map</sys_class_name>
         <sys_created_by>David.Delahoz</sys_created_by>
         <sys_created_on>2018-08-24 13:56:10</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>789411badb0cab00c822fcd6f49619df</sys_id>
-        <sys_mod_count>6</sys_mod_count>
+        <sys_mod_count>15</sys_mod_count>
         <sys_name>Onpage Event Transform</sys_name>
         <sys_package display_value="OnPage Integration" source="x_onpr_onpage">864f25ecdb8ca300ee685e25ca96192d</sys_package>
         <sys_policy/>
         <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="OnPage Integration">864f25ecdb8ca300ee685e25ca96192d</sys_scope>
         <sys_update_name>sys_transform_map_789411badb0cab00c822fcd6f49619df</sys_update_name>
-        <sys_updated_by>will.young</sys_updated_by>
-        <sys_updated_on>2018-09-22 19:41:40</sys_updated_on>
+        <sys_updated_by>hamid.laghari</sys_updated_by>
+        <sys_updated_on>2026-10-30 17:59:40</sys_updated_on>
         <target_table>x_onpr_onpage_event</target_table>
     </sys_transform_map>
 </record_update>

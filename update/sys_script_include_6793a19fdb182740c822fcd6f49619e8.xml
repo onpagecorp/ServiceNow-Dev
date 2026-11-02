@@ -10,247 +10,434 @@
         <name>sync</name>
         <sandbox_callable>false</sandbox_callable>
         <script><![CDATA[var sync = Class.create();
+
 sync.prototype = {
+
     initialize: function() {
-		this.token = gs.getProperty('x_onpr_onpage.auth.token');
-		this.key = gs.getProperty('x_onpr_onpage.auth.key');
-		this.URLsub = gs.getProperty('x_onpr_onpage.URLsubdomain');
-		this.instance = gs.getProperty('instance_name');
-		this.username = 'onpage';
-		this.password = function(){
-			var gr = new GlideRecordSecureSecure('sys_user');
-			if(gr.get('user_name',"onpage")){
-				return gr.getUniqueValue();
-			}
-		};
-		//LOGGING/////////
-		this.logTable = 'sysauto_script';
-		this.logID = gs.getProperty('x_onpr_onpage.scripts.sync');
-		this.log = new x_onpr_onpage.log();
-		this.error = function(message,type){
-		  this.log.error(message,type,this.logTable,this.logID);
-		};
-		this.info = function(message,type){
-		  this.log.info(message,type,this.logTable,this.logID);
-		};
+
+        this.token = gs.getProperty('x_onpr_onpage.auth.token');
+        this.key = gs.getProperty('x_onpr_onpage.auth.key');
+        this.URLsub = gs.getProperty('x_onpr_onpage.URLsubdomain');
+        this.instance = gs.getProperty('instance_name');
+
+        this.username = 'onpage';
+
+        this.password = function() {
+
+            // FIXED: Correct standard ServiceNow API name.
+            var gr = new GlideRecordSecure('sys_user');
+
+            if (gr.get('user_name', 'onpage')) {
+                return gr.getUniqueValue();
+            }
+        };
+
+        // Existing logging configuration - unchanged.
+        this.logTable = 'sysauto_script';
+        this.logID = gs.getProperty('x_onpr_onpage.scripts.sync');
+        this.log = new x_onpr_onpage.log();
+
+        this.error = function(message, type) {
+            this.log.error(message, type, this.logTable, this.logID);
+        };
+
+        this.info = function(message, type) {
+            this.log.info(message, type, this.logTable, this.logID);
+        };
     },
-	targetSync: function() {
-		this.syncGroups();
-		this.syncUsers();
-	},
-	syncGroups: function() {
-		//get groups from OnPage
-		var body = this._getGroups();
-		if(body=="error"){
-			return;
-		}
-		var json = JSON.parse(body);
-		var groups = json.groups;
-		//loop through accounts and get values
-		for(var i=0;i<groups.length;i++){
-			var group = groups[i];
-			this.info("Looking for existing group: "+JSON.stringify(group),"internal");
-			var name = group.name.toString(),
-				opid = group.opid.toString(),
-				grpID = group.id.toString();
-				//grpActive = group.active.toString();
-			//check for existing records
-			var gr = new GlideRecordSecure('x_onpr_onpage_target');
-				gr.addQuery('opid',opid);
-				gr.query();
-			if(gr.next()){
-				//if inactivated, delete record
-				//if(grpActive=="false"){
-				//	gr.deleteRecord();
-				//	this.info("Group target record deleted via sync","internal");
-				//return;
-				//}
-				//if existing, check for value changes
-				this.info("Existing group found","internal");
-				var fields = ["onpage_name"];
-				var opValues = [name];
-				var update = false;
-				for(var j=0;j<fields.length;j++){
-					var field = fields[j],
-						onpage = opValues[j],
-						existing = gr.getValue(field);
-					if(existing != onpage){
-						//if value changed, set value and mark for update
-						this.info("Existing group record value does not match onpage; updating","internal");
-						gr.setValue(field,onpage);
-						update = true;
-					}
-				}
-				if(update){
-					//if any value has changed, update record
-					this.info("Updating existing group record","internal");
-					gr.update();
-				}
-			}
-			else{
-				this.info("No existing group; creating","internal");
-				//no existing record, create one
-				var grImp = new GlideRecordSecure('x_onpr_onpage_target_import');
-				grImp.initialize();
-				grImp.setValue('onpage_name',name);
-				grImp.setValue('opid',opid);
-				grImp.setValue('id',grpID);
-				grImp.insert();
-			}
-		}
-	},
-	syncUsers: function(){
-		//get accounts from OnPage
-		var body = this._getAccounts();
-		if(body=="error"){
-			return;
-		}
-		var json = JSON.parse(body);
-		var accounts = json.accounts;
-		//loop through accounts and get values
-		for(var i=0;i<accounts.length;i++){
-			var account = accounts[i];
-			this.info("Looking for existing user: "+JSON.stringify(account),"internal");
-			var first = account.firstName.toString(),
-				last = account.lastName.toString(),
-				email = account.email.toString(),
-				opid = account.opid.toString(),
-				id = account.id.toString();
-				//usrActive = account.active.toString();
-			//check for existing records
-			var gr = new GlideRecordSecure('x_onpr_onpage_target');
-				gr.addQuery('opid',opid);
-				gr.query();
-			if(gr.next()){
-				//if inactivated, delete record
-				//if(usrActive=="false"){
-				//	gr.deleteRecord();
-				//	this.info("User target record deleted via sync","internal");
-				//return;
-				//}
-				//if existing, check for value changes
-				this.info("Existing user found","internal");
-				var fields = ["first_name","last_name","email"];
-				var opValues = [first,last,email];
-				var update = false;
-				for(var j=0;j<fields.length;j++){
-					var field = fields[j],
-						onpage = opValues[j],
-						existing = gr.getValue(field);
-					if(existing != onpage){
-						//if value changed, set value and mark for update
-						this.info("Existing user value does not match onpage; updating","internal");
-						gr.setValue(field,onpage);
-						update = true;
-					}
-				}
-				if(update){
-					//if any value has changed, update record
-					this.info("Updating existing user record","internal");
-					gr.update();
-				}
-			}
-			else{
-				this.info("No existing user; creating","internal");
-				//no existing record, create one
-				var grImp = new GlideRecordSecure('x_onpr_onpage_target_import');
-				grImp.initialize();
-				grImp.setValue('active',true);
-				grImp.setValue('hidden',false);
-				grImp.setValue('first_name',first);
-				grImp.setValue('last_name',last);
-				grImp.setValue('email',email);
-				grImp.setValue('opid',opid);
-				grImp.setValue('id',id);
-				grImp.insert();
-			}
-		}
-	},
-	createAccount: function(firstName, lastName, email, secondaryEmail, phone, opid){
 
 
- var rest = new sn_ws.RESTMessageV2('OnPage Secured', 'createAccount');
-			rest.setStringParameterNoEscape('URLsub',this.URLsub);
-			rest.setStringParameterNoEscape('token',this.token);
-			rest.setStringParameterNoEscape('key',this.key);
-			rest.setStringParameterNoEscape('first', firstName);
-			rest.setStringParameterNoEscape('last', lastName);
-			rest.setStringParameterNoEscape('email', email);
-			rest.setStringParameterNoEscape('secondary', secondaryEmail);
-			rest.setStringParameterNoEscape('phone', phone);
-			rest.setStringParameterNoEscape('opid', opid);
+    // CHANGED: Start with groups. The ECC response handler
+    // will start users after group processing finishes.
+    targetSync: function() {
 
-			var response = rest.executeAsync();
-			response.waitForResponse(60);
-			var body = response.getBody();
-			var status = response.getStatusCode();
-			if(status==200){
-			return body;
-		}
-		else{
-			var request = rest.getRequestBody();
-			this._handleErrors(request,status,body);
-			return "error";
-		}
-	},
-	_getAccounts: function(){
-		//rest call to onpage, return body if no error
-		var rest = new sn_ws.RESTMessageV2("OnPage Secured","accounts");
-			rest.setStringParameterNoEscape('URLsub',this.URLsub);
-			rest.setStringParameterNoEscape('token',this.token);
-			rest.setStringParameterNoEscape('key',this.key);
-		var response = rest.executeAsync();
-		response.waitForResponse(60);
-		var status = response.getStatusCode();
-		var body = response.getBody();
-		if(status==200){
-			return body;
-		}
-		else{
-			var request = rest.getRequestBody();
-			this._handleErrors(request,status,body);
-			return "error";
-		}
-	},
-	_getGroups: function(){
-		//rest call to onpage, return body if no error
-		var rest = new sn_ws.RESTMessageV2("OnPage Secured","groups");
-			rest.setStringParameterNoEscape('URLsub',this.URLsub);
-			rest.setStringParameterNoEscape('token',this.token);
-			rest.setStringParameterNoEscape('key',this.key);
-		var response = rest.executeAsync();
-		response.waitForResponse(60);
-		var status = response.getStatusCode();
-		var body = response.getBody();
-		if(status==200){
-			return body;
-		}
-		else{
-			var request = rest.getRequestBody();
-			this._handleErrors(request,status,body);
-			return "error";
-		}
-	},
-	_handleErrors: function(request,status,body){
-		var handle = new x_onpr_onpage.handleErrors();
-			handle.rest(request,status,body);
-	},
+        try {
+            this._getGroups('ONPAGE_TARGET_GROUPS');
+        } catch (ex) {
+
+            this.error(
+                'OnPage group sync initiation failed: ' + ex.message,
+                'internal'
+            );
+
+            // Preserve independent user synchronization
+            // if sending the group request fails.
+            this.syncUsers();
+        }
+    },
+
+
+    // CHANGED: This public method now initiates a request.
+    // Actual group processing happens when ECC responds.
+    syncGroups: function() {
+
+        this._getGroups('ONPAGE_GROUPS');
+    },
+
+
+    // NEW: Process the group response asynchronously.
+    // Existing group mapping/update logic is preserved.
+    processGroupsResponse: function(body) {
+
+        var json = JSON.parse(body);
+        var groups = json.groups;
+
+        for (var i = 0; i < groups.length; i++) {
+
+            var group = groups[i];
+
+            this.info(
+                "Looking for existing group: " +
+                JSON.stringify(group),
+                "internal"
+            );
+
+            var name = group.name.toString(),
+                opid = group.opid.toString(),
+                grpID = group.id.toString();
+
+            // Existing group lookup - unchanged.
+            var gr = new GlideRecordSecure(
+                'x_onpr_onpage_target'
+            );
+
+            gr.addQuery('opid', opid);
+            gr.query();
+
+            if (gr.next()) {
+
+                this.info(
+                    "Existing group found",
+                    "internal"
+                );
+
+                var fields = ["onpage_name"];
+                var opValues = [name];
+                var update = false;
+
+                for (var j = 0; j < fields.length; j++) {
+
+                    var field = fields[j],
+                        onpage = opValues[j],
+                        existing = gr.getValue(field);
+
+                    if (existing != onpage) {
+
+                        this.info(
+                            "Existing group record value does not match onpage; updating",
+                            "internal"
+                        );
+
+                        gr.setValue(field, onpage);
+                        update = true;
+                    }
+                }
+
+                if (update) {
+
+                    this.info(
+                        "Updating existing group record",
+                        "internal"
+                    );
+
+                    gr.update();
+                }
+
+            } else {
+
+                this.info(
+                    "No existing group; creating",
+                    "internal"
+                );
+
+                var grImp = new GlideRecordSecure(
+                    'x_onpr_onpage_target_import'
+                );
+
+                grImp.initialize();
+
+                grImp.setValue('onpage_name', name);
+                grImp.setValue('opid', opid);
+                grImp.setValue('id', grpID);
+
+                grImp.insert();
+            }
+        }
+    },
+
+
+    // CHANGED: Public method initiates asynchronous request.
+    syncUsers: function() {
+
+        this._getAccounts();
+    },
+
+
+    // NEW: Process account response asynchronously.
+    // Existing user mapping/update logic is preserved.
+    processAccountsResponse: function(body) {
+
+        var json = JSON.parse(body);
+        var accounts = json.accounts;
+
+        for (var i = 0; i < accounts.length; i++) {
+
+            var account = accounts[i];
+
+            this.info(
+                "Looking for existing user: " +
+                JSON.stringify(account),
+                "internal"
+            );
+
+            var first = account.firstName.toString(),
+                last = account.lastName.toString(),
+                email = account.email.toString(),
+                opid = account.opid.toString(),
+                id = account.id.toString();
+
+            var gr = new GlideRecordSecure(
+                'x_onpr_onpage_target'
+            );
+
+            gr.addQuery('opid', opid);
+            gr.query();
+
+            if (gr.next()) {
+
+                this.info(
+                    "Existing user found",
+                    "internal"
+                );
+
+                var fields = [
+                    "first_name",
+                    "last_name",
+                    "email"
+                ];
+
+                var opValues = [
+                    first,
+                    last,
+                    email
+                ];
+
+                var update = false;
+
+                for (var j = 0; j < fields.length; j++) {
+
+                    var field = fields[j],
+                        onpage = opValues[j],
+                        existing = gr.getValue(field);
+
+                    if (existing != onpage) {
+
+                        this.info(
+                            "Existing user value does not match onpage; updating",
+                            "internal"
+                        );
+
+                        gr.setValue(field, onpage);
+                        update = true;
+                    }
+                }
+
+                if (update) {
+
+                    this.info(
+                        "Updating existing user record",
+                        "internal"
+                    );
+
+                    gr.update();
+                }
+
+            } else {
+
+                this.info(
+                    "No existing user; creating",
+                    "internal"
+                );
+
+                var grImp = new GlideRecordSecure(
+                    'x_onpr_onpage_target_import'
+                );
+
+                grImp.initialize();
+
+                grImp.setValue('active', true);
+                grImp.setValue('hidden', false);
+                grImp.setValue('first_name', first);
+                grImp.setValue('last_name', last);
+                grImp.setValue('email', email);
+                grImp.setValue('opid', opid);
+                grImp.setValue('id', id);
+
+                grImp.insert();
+            }
+        }
+    },
+
+
+    // CHANGED: Create account is now asynchronous.
+    // IMPORTANT: No HTTP response body can be returned
+    // immediately. Existing callers must be adjusted.
+    createAccount: function(
+        firstName,
+        lastName,
+        email,
+        secondaryEmail,
+        phone,
+        opid
+    ) {
+
+        var rest = new sn_ws.RESTMessageV2(
+            'OnPage Secured',
+            'createAccount'
+        );
+
+        rest.setStringParameterNoEscape(
+            'URLsub', this.URLsub
+        );
+
+        rest.setStringParameterNoEscape(
+            'token', this.token
+        );
+
+        rest.setStringParameterNoEscape(
+            'key', this.key
+        );
+
+        rest.setStringParameterNoEscape(
+            'first', firstName
+        );
+
+        rest.setStringParameterNoEscape(
+            'last', lastName
+        );
+
+        rest.setStringParameterNoEscape(
+            'email', email
+        );
+
+        rest.setStringParameterNoEscape(
+            'secondary', secondaryEmail
+        );
+
+        rest.setStringParameterNoEscape(
+            'phone', phone
+        );
+
+        rest.setStringParameterNoEscape(
+            'opid', opid
+        );
+
+        // NEW: Route the response through ECC Queue.
+        // This design is for direct REST (no MID Server).
+        rest.setEccTopic('ONPAGE_CREATE_ACCOUNT');
+
+        // CHANGED: Execute without waiting for response.
+        rest.executeAsync();
+
+        // CHANGED: No immediate response body is available.
+        // Caller must not treat this as API confirmation.
+        return;
+    },
+
+
+    // NEW: Called when createAccount returns HTTP 200.
+    // Actual caller-specific success processing must
+    // be added after checking the existing caller.
+    processCreateAccountResponse: function(body) {
+
+        this.info(
+            'OnPage createAccount returned HTTP 200.',
+            'internal'
+        );
+    },
+
+
+    // CHANGED: Request groups asynchronously.
+    _getGroups: function(topic) {
+
+        var rest = new sn_ws.RESTMessageV2(
+            'OnPage Secured',
+            'groups'
+        );
+
+        rest.setStringParameterNoEscape(
+            'URLsub', this.URLsub
+        );
+
+        rest.setStringParameterNoEscape(
+            'token', this.token
+        );
+
+        rest.setStringParameterNoEscape(
+            'key', this.key
+        );
+
+        // NEW: Identify the response in ECC Queue.
+        rest.setEccTopic(topic || 'ONPAGE_GROUPS');
+
+        // CHANGED: No blocking REST call.
+        rest.executeAsync();
+    },
+
+
+    // CHANGED: Request accounts asynchronously.
+    _getAccounts: function() {
+
+        var rest = new sn_ws.RESTMessageV2(
+            'OnPage Secured',
+            'accounts'
+        );
+
+        rest.setStringParameterNoEscape(
+            'URLsub', this.URLsub
+        );
+
+        rest.setStringParameterNoEscape(
+            'token', this.token
+        );
+
+        rest.setStringParameterNoEscape(
+            'key', this.key
+        );
+
+        // NEW: Identify account response in ECC Queue.
+        rest.setEccTopic('ONPAGE_ACCOUNTS');
+
+        // CHANGED: No blocking REST call.
+        rest.executeAsync();
+    },
+
+
+    // Existing error-handling method - unchanged.
+    _handleErrors: function(request, status, body) {
+
+        var handle = new x_onpr_onpage.handleErrors();
+
+        handle.rest(request, status, body);
+    },
+
 
     type: 'sync'
-};]]></script>
+};
+]]></script>
         <sys_class_name>sys_script_include</sys_class_name>
         <sys_created_by>will.young</sys_created_by>
         <sys_created_on>2018-09-07 15:18:33</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>6793a19fdb182740c822fcd6f49619e8</sys_id>
-        <sys_mod_count>30</sys_mod_count>
+        <sys_mod_count>35</sys_mod_count>
         <sys_name>sync</sys_name>
         <sys_package display_value="OnPage Integration" source="x_onpr_onpage">864f25ecdb8ca300ee685e25ca96192d</sys_package>
-        <sys_policy>read</sys_policy>
+        <sys_policy>protected</sys_policy>
         <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="OnPage Integration">864f25ecdb8ca300ee685e25ca96192d</sys_scope>
         <sys_update_name>sys_script_include_6793a19fdb182740c822fcd6f49619e8</sys_update_name>
         <sys_updated_by>hamid.laghari</sys_updated_by>
-        <sys_updated_on>2026-09-30 18:49:27</sys_updated_on>
+        <sys_updated_on>2026-11-02 01:03:33</sys_updated_on>
     </sys_script_include>
 </record_update>

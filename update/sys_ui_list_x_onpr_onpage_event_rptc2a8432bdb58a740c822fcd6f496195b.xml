@@ -3,7 +3,7 @@
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
             <element>number</element>
-            <list_id display_value="x_onpr_onpage_event" element="NULL" name="x_onpr_onpage_event" parent="NULL" relationship="NULL" sys_domain="global" view="44daa83bdbc0b410765f68461b9619dc">bbbf8081dbec6740ee685e25ca961932</list_id>
+            <list_id display_value="x_onpr_onpage_event" element="NULL" name="x_onpr_onpage_event" parent="NULL" relationship="NULL" sys_domain="global" view="8e1c9605db466f0056c524794b961939">bbbf8081dbec6740ee685e25ca961932</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>0</position>
@@ -18,7 +18,7 @@
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
             <element>type</element>
-            <list_id display_value="x_onpr_onpage_event" element="NULL" name="x_onpr_onpage_event" parent="NULL" relationship="NULL" sys_domain="global" view="44daa83bdbc0b410765f68461b9619dc">bbbf8081dbec6740ee685e25ca961932</list_id>
+            <list_id display_value="x_onpr_onpage_event" element="NULL" name="x_onpr_onpage_event" parent="NULL" relationship="NULL" sys_domain="global" view="8e1c9605db466f0056c524794b961939">bbbf8081dbec6740ee685e25ca961932</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>1</position>
@@ -33,7 +33,7 @@
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
             <element>status</element>
-            <list_id display_value="x_onpr_onpage_event" element="NULL" name="x_onpr_onpage_event" parent="NULL" relationship="NULL" sys_domain="global" view="44daa83bdbc0b410765f68461b9619dc">bbbf8081dbec6740ee685e25ca961932</list_id>
+            <list_id display_value="x_onpr_onpage_event" element="NULL" name="x_onpr_onpage_event" parent="NULL" relationship="NULL" sys_domain="global" view="8e1c9605db466f0056c524794b961939">bbbf8081dbec6740ee685e25ca961932</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>2</position>
@@ -48,7 +48,7 @@
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
             <element>current</element>
-            <list_id display_value="x_onpr_onpage_event" element="NULL" name="x_onpr_onpage_event" parent="NULL" relationship="NULL" sys_domain="global" view="44daa83bdbc0b410765f68461b9619dc">bbbf8081dbec6740ee685e25ca961932</list_id>
+            <list_id display_value="x_onpr_onpage_event" element="NULL" name="x_onpr_onpage_event" parent="NULL" relationship="NULL" sys_domain="global" view="8e1c9605db466f0056c524794b961939">bbbf8081dbec6740ee685e25ca961932</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>3</position>
@@ -63,7 +63,7 @@
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
             <element>document_id</element>
-            <list_id display_value="x_onpr_onpage_event" element="NULL" name="x_onpr_onpage_event" parent="NULL" relationship="NULL" sys_domain="global" view="44daa83bdbc0b410765f68461b9619dc">bbbf8081dbec6740ee685e25ca961932</list_id>
+            <list_id display_value="x_onpr_onpage_event" element="NULL" name="x_onpr_onpage_event" parent="NULL" relationship="NULL" sys_domain="global" view="8e1c9605db466f0056c524794b961939">bbbf8081dbec6740ee685e25ca961932</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>4</position>
@@ -78,7 +78,7 @@
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
             <element>sys_created_on</element>
-            <list_id display_value="x_onpr_onpage_event" element="NULL" name="x_onpr_onpage_event" parent="NULL" relationship="NULL" sys_domain="global" view="44daa83bdbc0b410765f68461b9619dc">bbbf8081dbec6740ee685e25ca961932</list_id>
+            <list_id display_value="x_onpr_onpage_event" element="NULL" name="x_onpr_onpage_event" parent="NULL" relationship="NULL" sys_domain="global" view="8e1c9605db466f0056c524794b961939">bbbf8081dbec6740ee685e25ca961932</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>5</position>
@@ -103,6 +103,7 @@
             <sys_class_name>sys_ui_list</sys_class_name>
             <sys_created_by>will.young</sys_created_by>
             <sys_created_on>2018-09-12 18:50:16</sys_created_on>
+            <sys_customer_update>false</sys_customer_update>
             <sys_domain>global</sys_domain>
             <sys_domain_path>/</sys_domain_path>
             <sys_id>bbbf8081dbec6740ee685e25ca961932</sys_id>
@@ -110,12 +111,13 @@
             <sys_name>x_onpr_onpage_event</sys_name>
             <sys_package display_value="OnPage Integration" source="x_onpr_onpage">864f25ecdb8ca300ee685e25ca96192d</sys_package>
             <sys_policy/>
+            <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
             <sys_scope display_value="OnPage Integration">864f25ecdb8ca300ee685e25ca96192d</sys_scope>
             <sys_update_name>sys_ui_list_x_onpr_onpage_event_RPTc2a8432bdb58a740c822fcd6f496195b</sys_update_name>
             <sys_updated_by>will.young</sys_updated_by>
             <sys_updated_on>2018-09-12 18:50:16</sys_updated_on>
             <sys_user/>
-            <view display_value="Rptc2a8432bdb58a740c822fcd6f496195b" name="RPTc2a8432bdb58a740c822fcd6f496195b">44daa83bdbc0b410765f68461b9619dc</view>
+            <view display_value="Rptc2a8432bdb58a740c822fcd6f496195b" name="RPTc2a8432bdb58a740c822fcd6f496195b">8e1c9605db466f0056c524794b961939</view>
             <view_name/>
         </sys_ui_list>
     </sys_ui_list>

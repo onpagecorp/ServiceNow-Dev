@@ -3,11 +3,13 @@
         <sys_class_name>sys_security_acl_role</sys_class_name>
         <sys_created_by>toan.tran</sys_created_by>
         <sys_created_on>2021-06-22 13:22:29</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
         <sys_id>47c041d31bf43c10e56bc9d6624bcb7f</sys_id>
         <sys_mod_count>0</sys_mod_count>
         <sys_name>templateAjax.x_onpr_onpage.user</sys_name>
         <sys_package display_value="OnPage Integration" source="x_onpr_onpage">864f25ecdb8ca300ee685e25ca96192d</sys_package>
         <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="OnPage Integration">864f25ecdb8ca300ee685e25ca96192d</sys_scope>
         <sys_security_acl display_value="templateAjax">29ad7c931bf43c10e56bc9d6624bcb2b</sys_security_acl>
         <sys_update_name>sys_security_acl_role_47c041d31bf43c10e56bc9d6624bcb7f</sys_update_name>

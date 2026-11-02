@@ -103,6 +103,7 @@
             <sys_class_name>sys_ui_list</sys_class_name>
             <sys_created_by>will.young</sys_created_by>
             <sys_created_on>2018-09-20 04:12:39</sys_created_on>
+            <sys_customer_update>false</sys_customer_update>
             <sys_domain>global</sys_domain>
             <sys_domain_path>/</sys_domain_path>
             <sys_id>ca939257dbec2f40ee685e25ca96197b</sys_id>
@@ -110,6 +111,7 @@
             <sys_name>x_onpr_onpage_event_import</sys_name>
             <sys_package display_value="OnPage Integration" source="x_onpr_onpage">864f25ecdb8ca300ee685e25ca96192d</sys_package>
             <sys_policy/>
+            <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
             <sys_scope display_value="OnPage Integration">864f25ecdb8ca300ee685e25ca96192d</sys_scope>
             <sys_update_name>sys_ui_list_x_onpr_onpage_event_import_null</sys_update_name>
             <sys_updated_by>will.young</sys_updated_by>

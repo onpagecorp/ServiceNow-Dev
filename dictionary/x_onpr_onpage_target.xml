@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?><database>
     <element db_object_id="95e230e11be492101c6ca86a234bcb73" label="OnPage Target" max_length="40" name="x_onpr_onpage_target" type="collection">
+        <element default="global" label="Domain" max_length="32" name="sys_domain" read_only="true" read_only_option="display_read_only" type="domain_id"/>
+        <element label="Table" max_length="80" name="table" type="table_name"/>
+        <element label="First Name" max_length="40" name="first_name" type="string"/>
+        <element display="true" label="OPID" max_length="100" name="opid" read_only="true" read_only_option="display_read_only" type="string"/>
         <element dependent="table" dependent_on_field="table" label="Document ID" max_length="32" name="document_id" type="document_id" use_dependent_field="true"/>
+        <element label="Block Message Types" max_length="4000" name="block_message_types" type="glide_list"/>
+        <element label="ID" max_length="40" name="id" read_only="true" read_only_option="display_read_only" type="string"/>
+        <element default="true" label="Active" max_length="40" name="active" type="boolean"/>
+        <element label="Group Name" max_length="40" name="onpage_name" read_only="true" read_only_option="display_read_only" type="string"/>
         <element hint="Makes the account invisible when selecting recipients for messages." label="Hidden" max_length="40" name="hidden" type="boolean"/>
-        <element display="true" label="OPID" max_length="100" name="opid" read_only="true" type="string"/>
-        <element label="Group Name" max_length="40" name="onpage_name" read_only="true" type="string"/>
+        <element display="true" label="Display Name" max_length="140" name="display_name" read_only="true" read_only_option="display_read_only" type="string"/>
+        <element label="Email" max_length="40" name="email" type="string"/>
+        <element label="Last Name" max_length="40" name="last_name" type="string"/>
         <element choice="1" label="Quick Select" max_length="40" name="quick_select" type="choice">
             <choice>
                 <element inactive_on_update="false" label="Group" sequence="200" value="sys_user_group"/>
                 <element inactive_on_update="false" label="User" sequence="100" value="sys_user"/>
             </choice>
         </element>
-        <element label="Table" max_length="80" name="table" type="table_name"/>
-        <element label="Block Message Types" max_length="4000" name="block_message_types" type="glide_list"/>
-        <element display="true" label="Display Name" max_length="140" name="display_name" read_only="true" type="string"/>
-        <element label="Email" max_length="40" name="email" type="string"/>
-        <element label="First Name" max_length="40" name="first_name" type="string"/>
-        <element label="ID" max_length="40" name="id" read_only="true" type="string"/>
-        <element default="true" label="Active" max_length="40" name="active" type="boolean"/>
-        <element label="Last Name" max_length="40" name="last_name" type="string"/>
         <index name="index">
             <element name="document_id"/>
         </index>
@@ -26,6 +27,9 @@
         </index>
         <index name="index3">
             <element name="opid"/>
+        </index>
+        <index name="index4">
+            <element name="sys_domain"/>
         </index>
     </element>
 </database>
